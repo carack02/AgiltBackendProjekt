@@ -1,111 +1,111 @@
 * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-   --primary: #0f2c47;
-   --secondary: #347ec2;
-   --background: #ddd4c6;
-   --textLight: #f8f8f8;
-   --textDark: #222;
-   --radius: 10px;
+  --primary: #0f2c47;
+  --secondary: #347ec2;
+  --background: #ddd4c6;
+  --textLight: #f8f8f8;
+  --textDark: #222;
+  --radius: 10px;
 }
 
 html {
-   font-size: 16px;
+  font-size: 16px;
 }
 
 body {
-   width: 100%;
-   min-height: 100vh;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   font-family: 'Poppins', 'Montserrat', sans-serif;
-   background-color: #ddd4c6;
-   color: #222;
-   line-height: 1.5;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+  background-color: #ddd4c6;
+  color: #222;
+  line-height: 1.5;
 }
 
 main {
-   flex: 1;
+  flex: 1;
 }
 
 h1,
 h2,
 h3,
 h4 {
-   font-weight: 600;
-   line-height: 1.2;
+  font-weight: 600;
+  line-height: 1.2;
 }
 
 .container {
-   display: flex;
-   flex-direction: column;
-   gap: 10px;
-   max-width: 300px;
-   width: 100%;
-   margin: 30px auto;
-   padding: 1rem;
-   border: 1px solid rgb(34, 34, 34, 0.5);
-   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
-   border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 300px;
+  width: 100%;
+  margin: 30px auto;
+  padding: 1rem;
+  border: 1px solid rgb(34, 34, 34, 0.5);
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius);
 }
 
 img {
-   max-width: 100%;
-   display: block;
+  max-width: 100%;
+  display: block;
 }
 
 button {
-   font-family: inherit;
-   cursor: pointer;
-   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
-   border: 1px solid rgb(34, 34, 34, 0.5);
-   border-radius: var(--radius);
-   background-color: var(--primary);
-   color: var(--textLight);
-   padding: 1rem;
-   font-weight: 600;
-   transform: scale(1.02);
-   transition: all 0.2s ease;
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+  cursor: pointer;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgb(34, 34, 34, 0.5);
+  border-radius: var(--radius);
+  background-color: var(--primary);
+  color: var(--textLight);
+  padding: 1rem;
+  font-weight: 600;
+  transform: scale(1.02);
+  transition: all 0.2s ease;
 }
 
 input {
-   border-radius: 5px;
-   padding: 0.5rem;
+  border-radius: 5px;
+  padding: 0.5rem;
 }
 
 @media screen and (min-width: 600px) {
-   .container {
-      max-width: 600px;
-   }
-   h1,
-   h2,
-   h3,
-   h4 {
-      line-height: 1.5;
-   }
-   button {
-      padding: 1.5rem;
-      font-size: 1.2rem;
-   }
+  .container {
+    max-width: 600px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.5;
+  }
+  button {
+    padding: 1.5rem;
+    font-size: 1.2rem;
+  }
 }
 
 @media screen and (min-width: 860px) {
-   .container {
-      max-width: 600px;
-   }
-   h1,
-   h2,
-   h3,
-   h4 {
-      line-height: 1.8;
-   }
-   button {
-      padding: 1.8rem;
-      font-size: 1.5rem;
-   }
+  .container {
+    max-width: 600px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.8;
+  }
+  button {
+    padding: 1.8rem;
+    font-size: 1.5rem;
+  }
 }
