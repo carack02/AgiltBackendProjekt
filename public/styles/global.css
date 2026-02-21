@@ -98,8 +98,9 @@ input {
 }
 
 input:focus {
-  outline: #030303;
-  border-radius: 5px;
+  outline: 1px solid #222;
+  color: #222;
+  border-radius: 8px;
 }
 
 @media screen and (min-width: 600px) {
@@ -115,9 +116,6 @@ input:focus {
 }
 
 @media screen and (min-width: 860px) {
-  .container {
-    max-width: 600px;
-  }
   h1,
   h2,
   h3,
