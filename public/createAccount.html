@@ -22,7 +22,7 @@
           />
           <label for="username">Email</label>
           <input
-            type="text"
+            type="email"
             id="email"
             name="email"
             placeholder="Ange email"
@@ -30,18 +30,24 @@
           />
           <label for="password1">Lösenord</label>
           <input
+            placeholder="Ange lösenord"
             type="password"
             id="password1"
             name="password1"
-            placeholder="Ange lösenord"
+            minlength="10"
+            maxlength="20"
+            pattern="[A-Za-z0-9]+\?!\."
             required
           />
           <label for="password2">Lösenord igen</label>
           <input
+            placeholder="Ange lösenord igen"
             type="password"
             id="password2"
             name="password2"
-            placeholder="Ange lösenord igen"
+            minlength="10"
+            maxlength="20"
+            pattern="[A-Za-z0-9]+\?!\."
             required
           />
           <button type="submit">Skapa konto</button>
