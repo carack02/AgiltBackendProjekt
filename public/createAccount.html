@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/global.css" />
+
+    <title>Examic - Skapa konto</title>
+  </head>
+  <body>
+    <main>
+      <h1>Skapa konto</h1>
+      <div>
+        <form action="">
+          <label for="username">Användarnamn</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Ange ditt användarnamn"
+            required
+          />
+          <label for="username">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Ange email"
+            required
+          />
+          <label for="password1">Lösenord</label>
+          <input
+            placeholder="Ange lösenord"
+            type="password"
+            id="password1"
+            name="password1"
+            minlength="10"
+            maxlength="20"
+            pattern="[A-Za-z0-9]+\?!\."
+            required
+          />
+          <label for="password2">Lösenord igen</label>
+          <input
+            placeholder="Ange lösenord igen"
+            type="password"
+            id="password2"
+            name="password2"
+            minlength="10"
+            maxlength="20"
+            pattern="[A-Za-z0-9]+\?!\."
+            required
+          />
+          <button type="submit">Skapa konto</button>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
