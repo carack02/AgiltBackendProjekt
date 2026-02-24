@@ -54,4 +54,4 @@ export default defineConfig([
   },
 ]);
 
-// kör med npx "prettier . --write"
+// kör med "npx prettier . --write"
