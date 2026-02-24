@@ -1,93 +1,102 @@
-@font-face {
-  font-family: 'poppins';
-  src: url(../fonts/poppins.bold.ttf) format('truetype');
-  font-weight: 700;
-  font-style: normal;
+:root {
+  --primary: #0f2c47;
+  --secondary: #347ec2;
+  /* --background: #ddd4c6; */
+  --background: #f8f8f8;
+  --textLight: #f8f8f8;
+  --textDark: #0d2944;
+  --radius: 8px;
 }
 
-@font-face {
-  font-family: 'poppins';
-  src: url(../fonts/poppins.semibold.ttf) format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
-
-body {
-  margin: 0;
+.test-login {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  font-size: 10px;
   padding: 0;
+  border: solid 1px var(--primary);
+  margin: 0;
 }
 
-.no-scroll {
-  overflow: hidden;
+.test-login.active {
+  background-color: green;
 }
 
 header {
-  font-family: 'poppins', sans-serif;
   position: sticky;
   top: 0;
+  width: 100%;
   /* quota ut "position: relative;" nedan om du vill ha att headern inte skall sitta kvar på toppen */
   /* position: relative; */
   z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0f2c47;
+  background-color: var(--primary);
   max-height: 80px;
 }
 
 h1 {
-  color: white;
+  color: var(--textLight);
   margin-left: 81px;
 }
 
-button {
-  margin-right: 12px;
+.hamburger-menu {
+  margin-right: 30px;
+}
+
+.hamburger-button {
+  box-shadow: none;
   background-color: transparent;
   border: none;
-  cursor: pointer;
   padding: 5px;
+  padding-right: 7px;
 }
 
 .nav-menu {
-  z-index: 20;
-  align-items: center;
-  /* display: none; */
+  display: none;
   position: absolute;
   top: 80px;
   right: 0px;
-  width: 150px;
-  /* border: solid 1px black; */
-  /* display: none; */
-  list-style-type: none;
-  background-color: #0f2c47;
-  /* border: solid 1px black; */
-  padding: 5px;
-  margin: 0;
-  max-height: 0;
-  /* overflow: hidden; */
+  opacity: 0;
   transition:
     max-height 0.3s ease,
     opacity 0.3s ease;
-  opacity: 0;
-  font-size: larger;
 }
 
 .nav-menu.active {
   display: block;
   opacity: 1;
-  max-height: 300px;
+  max-height: 400px;
 }
 
-.nav-menu li {
+.list-option {
+  z-index: 20;
+  position: relative;
+  display: block;
+  max-height: 300px;
+  width: 150px;
+  list-style-type: none;
+  background-color: var(--primary);
+  padding: 5px;
+  margin: 0;
+
+  font-size: larger;
+}
+
+.list-option li {
   padding: 10px;
-  color: white;
+  color: var(--textLight);
   border: none;
 }
 
-.nav-menu a {
+.list-option a {
+  width: fit-content;
+  white-space: nowrap;
   text-decoration: none;
-  color: black;
-  border-bottom: solid 1px black;
 }
 
 .bar1,
@@ -96,7 +105,7 @@ button {
   display: block;
   width: 38px;
   height: 0.25rem;
-  background-color: white;
+  background-color: var(--background);
   margin-top: 8px;
   border-radius: calc(infinity * 1px);
   transition:
@@ -105,14 +114,13 @@ button {
     width 0.5s ease;
 }
 .bar3 {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .bar1.rotate1 {
   transform: rotate(45deg) translate(7px, 10px);
 }
 .bar2.fade {
-  /* opacity: 0; */
   width: 0;
 }
 .bar3.rotate2 {
@@ -121,14 +129,13 @@ button {
 
 .backdrop {
   position: fixed;
-
   inset: 0;
   z-index: 0;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* background-color: rgba(0, 0, 0, 0.5); */
+
   opacity: 0;
   visibility: hidden;
   transition:
@@ -140,30 +147,37 @@ button {
   opacity: 1;
   visibility: visible;
 }
-.stort-element {
-  height: 2000px;
+
+.loggedin-menu {
+  display: none;
 }
 
-.ruta1 {
-  background-color: red;
-  height: 400px;
-  width: 100%;
-}
-.ruta2 {
-  background-color: blue;
-  height: 400px;
-  width: 100%;
+.loggedout-menu {
+  display: block;
 }
 
-@media (min-width: 800px) {
+.loggedin-menu.loggedIn {
+  display: block;
+}
+
+.loggedout-menu.loggedIn {
+  display: none;
+}
+
+@media (min-width: 1024px) {
   .hamburger-menu {
     display: none;
   }
   .nav-menu {
+    display: block;
+    position: static;
+    opacity: 1;
+  }
+  .list-option {
     display: flex;
     flex-direction: row;
     gap: 31px;
-    width: 400px;
+    width: fit-content;
     position: static;
     max-height: none;
     border: none;
@@ -172,17 +186,28 @@ button {
     margin-right: 76px;
     font-weight: 600;
     font-size: larger;
-
-    /* border: none; */
   }
-  .nav-menu li,
-  .nav-menu a {
+  .list-option li,
+  .list-option a {
     border-bottom: none;
     padding: 0;
   }
-  .nav-menu.active {
-    display: flex;
+  .list-option.active {
     opacity: 1;
     max-height: none;
+  }
+
+  .loggedin-menu {
+    display: none;
+  }
+  .loggedout-menu {
+    display: flex;
+  }
+
+  .loggedin-menu.loggedIn {
+    display: flex;
+  }
+  .loggedout-menu.loggedIn {
+    display: none;
   }
 }
