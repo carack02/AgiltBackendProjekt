@@ -1,4 +1,3 @@
-import express, { request, response } from 'express';
 import type { Request, Response } from 'express';
 import { type OptionalId } from 'mongodb';
 import { mongoDatabase } from '../connectionMongoDB.ts';
