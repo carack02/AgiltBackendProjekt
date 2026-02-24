@@ -2,6 +2,8 @@ show collections
 
 use mongodb-the-project
 
+db.users.createIndex({username: 1}, { unique: true})
+
 db.users.insertMany([
     {
         username: 'Test1',
