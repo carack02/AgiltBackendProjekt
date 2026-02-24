@@ -1,9 +1,33 @@
+@font-face {
+  font-family: 'poppins';
+  src: url(../fonts/poppins.bold.ttf) format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'poppins';
+  src: url(../fonts/poppins.semibold.ttf) format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
 body {
   margin: 0;
   padding: 0;
 }
 
+.no-scroll {
+  overflow: hidden;
+}
+
 header {
+  font-family: 'poppins', sans-serif;
+  position: sticky;
+  top: 0;
+  /* quota ut "position: relative;" nedan om du vill ha att headern inte skall sitta kvar på toppen */
+  /* position: relative; */
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,6 +37,7 @@ header {
 
 h1 {
   color: white;
+  margin-left: 81px;
 }
 
 button {
@@ -23,31 +48,28 @@ button {
   padding: 5px;
 }
 
-.menu-wrapper {
-  position: relative;
-  align-items: center;
-}
-
 .nav-menu {
+  z-index: 20;
+  align-items: center;
   /* display: none; */
   position: absolute;
-  top: 0px;
-  right: 10px;
+  top: 80px;
+  right: 0px;
   width: 150px;
   /* border: solid 1px black; */
   /* display: none; */
   list-style-type: none;
-  background-color: white;
-  border: solid 1px black;
-  border-radius: 10px;
-  padding: 0;
+  background-color: #0f2c47;
+  /* border: solid 1px black; */
+  padding: 5px;
   margin: 0;
   max-height: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition:
     max-height 0.3s ease,
     opacity 0.3s ease;
   opacity: 0;
+  font-size: larger;
 }
 
 .nav-menu.active {
@@ -56,40 +78,57 @@ button {
   max-height: 300px;
 }
 
-li {
+.nav-menu li {
   padding: 10px;
-  border-bottom: solid 1px black;
-}
-
-li:last-child {
+  color: white;
   border: none;
 }
 
-a {
+.nav-menu a {
   text-decoration: none;
   color: black;
   border-bottom: solid 1px black;
 }
 
-.bar {
+.bar1,
+.bar2,
+.bar3 {
   display: block;
   width: 38px;
   height: 0.25rem;
   background-color: white;
   margin-top: 8px;
   border-radius: calc(infinity * 1px);
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease,
+    width 0.5s ease;
 }
-.bar:last-child {
+.bar3 {
   margin-bottom: 8px;
+}
+
+.bar1.rotate1 {
+  transform: rotate(45deg) translate(7px, 10px);
+}
+.bar2.fade {
+  /* opacity: 0; */
+  width: 0;
+}
+.bar3.rotate2 {
+  transform: rotate(-45deg) translate(7px, -10px);
 }
 
 .backdrop {
   position: fixed;
+
+  inset: 0;
+  z-index: 0;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.5); */
   opacity: 0;
   visibility: hidden;
   transition:
@@ -98,7 +137,52 @@ a {
 }
 
 .backdrop.active {
-  z-index: -1;
   opacity: 1;
   visibility: visible;
+}
+.stort-element {
+  height: 2000px;
+}
+
+.ruta1 {
+  background-color: red;
+  height: 400px;
+  width: 100%;
+}
+.ruta2 {
+  background-color: blue;
+  height: 400px;
+  width: 100%;
+}
+
+@media (min-width: 800px) {
+  .hamburger-menu {
+    display: none;
+  }
+  .nav-menu {
+    display: flex;
+    flex-direction: row;
+    gap: 31px;
+    width: 400px;
+    position: static;
+    max-height: none;
+    border: none;
+    opacity: 1;
+    background-color: transparent;
+    margin-right: 76px;
+    font-weight: 600;
+    font-size: larger;
+
+    /* border: none; */
+  }
+  .nav-menu li,
+  .nav-menu a {
+    border-bottom: none;
+    padding: 0;
+  }
+  .nav-menu.active {
+    display: flex;
+    opacity: 1;
+    max-height: none;
+  }
 }
