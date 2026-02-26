@@ -10,6 +10,6 @@ import {
 
 router.get('/users', getUsers);
 router.post('/user', createUser);
-router.put('/user/:id', updateUser);
+router.patch('/user/:id', updateUser);
 
 export default router;
