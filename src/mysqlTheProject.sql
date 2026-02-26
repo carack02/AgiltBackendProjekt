@@ -40,5 +40,8 @@ VALUES('Vilket år föll Berlinmuren och varför var det viktigt?', '1989. Muren
 SELECT * FROM category;
 SELECT * FROM flashcard;
 
+INSERT INTO flashcard(flashcardQuestion, flashcardAnswer, categoryId)
+VALUES ('Fråga', 'Svar', 1);
+
 DROP TABLE flashcard;
 DROP TABLE category;
