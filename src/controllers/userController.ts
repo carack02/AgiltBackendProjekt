@@ -1,8 +1,9 @@
 import type { Request, Response } from 'express';
-import { type OptionalId } from 'mongodb';
+import { ObjectId, type OptionalId } from 'mongodb';
 import { mongoDatabase } from '../connectionMongoDB.ts';
 
 interface User {
+  userId?: string;
   username: string;
   userEmail: string;
   userPassword: string;
@@ -36,4 +37,35 @@ export const createUser = async (
     message: 'En användare har lagts till!',
     success: true,
   });
+};
+
+export const updateUser = async (
+  request: Request<
+    { id: ObjectId },
+    void,
+    {
+      username: string;
+      userEmail: string;
+      userPassword: string;
+    },
+    void
+  >,
+  response: Response,
+) => {
+  const { username, userEmail, userPassword } = request.body;
+  const result = await mongoDatabase
+    .collection<OptionalId<User>>('users')
+    .updateOne(
+      {
+        _id: new ObjectId(request.params.id),
+      },
+      {
+        $set: {
+          username: username,
+          userEmail: userEmail,
+          userPassword: userPassword,
+        },
+      },
+    );
+  response.status(200).send(result);
 };
