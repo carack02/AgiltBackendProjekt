@@ -17,6 +17,19 @@ export const getUsers = async (_request: Request, response: Response) => {
   response.json(results);
 };
 
+export const getUser = async (
+  request: Request<{ id: ObjectId }, void, void, void>,
+  response: Response,
+) => {
+  const result = await mongoDatabase
+    .collection<OptionalId<User>>('users')
+    .findOne({
+      _id: new ObjectId(request.params.id),
+    });
+  if (!result) response.status(404).send('Användaren hittades inte');
+  else response.status(200).send(result);
+};
+
 export const createUser = async (
   request: Request<
     void,
