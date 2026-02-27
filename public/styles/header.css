@@ -39,7 +39,7 @@ header {
   max-height: 80px;
 }
 
-h1 {
+#h1 {
   color: var(--textLight);
   margin-left: 81px;
 }

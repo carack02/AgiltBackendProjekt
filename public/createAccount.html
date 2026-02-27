@@ -3,15 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/header.js" defer></script>
     <link rel="stylesheet" href="styles/global.css" />
-
+    <script src="scripts/createAccount.js" defer></script>
     <title>Examic - Skapa konto</title>
   </head>
   <body>
+    <header>
+      <button class="test-login">test-login</button>
+      <div class="backdrop"></div>
+      <h1 id="h1">Examiq</h1>
+      <div class="hamburger-menu">
+        <button class="hamburger-button">
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar3"></div>
+        </button>
+      </div>
+      <div class="nav-menu">
+        <ul class="list-option loggedout-menu">
+          <a href="/om"><li>Om Examiq</li></a>
+          <a href="/kontakt"><li>Kontakta oss</li></a>
+          <a href="/login"><li>Logga in</li></a>
+        </ul>
+        <ul class="list-option loggedin-menu">
+          <a href="/om"><li>Om Examiq</li></a>
+          <a href="/kontakt"><li>Kontakta oss</li></a>
+          <a href="/profil"><li>Samlingar</li></a>
+          <a href="/statistik"><li>Statistik</li></a>
+          <a href="/login"><li>Logga ut</li></a>
+        </ul>
+      </div>
+    </header>
     <main>
-      <h1>Skapa konto</h1>
+      <h1 id="h1">Skapa konto</h1>
       <div>
-        <form action="">
+        <form id="form" action="" autocomplete="off">
           <label for="username">Användarnamn</label>
           <input
             type="text"
@@ -50,9 +77,39 @@
             pattern="[A-Za-z0-9]+\?!\."
             required
           />
-          <button type="submit">Skapa konto</button>
+          <button id="create-account-btn" type="submit">Skapa konto</button>
         </form>
       </div>
     </main>
+    <footer class="footerFlex">
+      <div class="column1">
+        <h1 id="h1">
+          <a href="#">Examiq</a>
+        </h1>
+        <p class="coppy p">Copyright &copy; Examiq 2026</p>
+      </div>
+      <div class="column2">
+        <h2 id="h2">Kontakta oss:</h2>
+        <p class="p">Exempelvägen 12</p>
+        <p class="p">123 46 Göteborg</p>
+        <p class="p">0701 23 45 67</p>
+      </div>
+      <div class="column3">
+        <a herf="https://www.facebook.com/?locale=sv_SE">
+          <img
+            src="../facebok.png"
+            alt="Länk till vår facebook"
+            class="facebook"
+          />
+        </a>
+        <a herf="https://www.instagram.com/accounts/emailsignup/">
+          <img
+            src="../insta.png"
+            alt="Länk till vår instagram"
+            class="instagram"
+          />
+        </a>
+      </div>
+    </footer>
   </body>
 </html>
