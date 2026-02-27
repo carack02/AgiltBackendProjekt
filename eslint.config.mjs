@@ -9,10 +9,14 @@ import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    files: ['src/**/*.ts'],
     plugins: { js },
     extends: ['js/recommended'],
     languageOptions: { globals: globals.node },
+  },
+  {
+    files: ['public/**/*.js'],
+    languageOptions: { globals: globals.browser, sourceType: 'script' },
   },
   { files: ['**/*.js'], languageOptions: { sourceType: 'commonjs' } },
   tseslint.configs.recommended,

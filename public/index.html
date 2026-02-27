@@ -3,7 +3,71 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/header.js" defer></script>
+    <link rel="stylesheet" href="./styles/global.css" />
+    <link rel="stylesheet" href="./styles/header.css" />
+    <link rel="stylesheet" href="./styles/footer.css" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <button class="test-login">test-login</button>
+      <div class="backdrop"></div>
+      <h1>Examiq</h1>
+      <div class="hamburger-menu">
+        <button class="hamburger-button">
+          <div class="bar bar1"></div>
+          <div class="bar bar2"></div>
+          <div class="bar bar3"></div>
+        </button>
+      </div>
+
+      <div class="nav-menu">
+        <ul class="list-option loggedout-menu">
+          <a href="/om"><li>Om Examiq</li></a>
+          <a href="/kontakt"><li>Kontakta oss</li></a>
+          <a href="/login"><li>Logga in</li></a>
+        </ul>
+
+        <ul class="list-option loggedin-menu">
+          <a href="/om"><li>Om Examiq</li></a>
+          <a href="/kontakt"><li>Kontakta oss</li></a>
+          <a href="/profil"><li>Samlingar</li></a>
+          <a href="/public/login.html"><li>Logga ut</li></a>
+        </ul>
+      </div>
+    </header>
+    <main></main>
+    <footer class="footerFlex">
+      <div class="column1">
+        <h1>
+          <a href="#">Examiq</a>
+        </h1>
+
+        <p class="coppy">Copyright &copy; Examiq 2026</p>
+      </div>
+      <div class="column2">
+        <h2>Kontakta oss:</h2>
+        <p>Exempelvägen 12</p>
+        <p>123 46 Göteborg</p>
+        <p class="mobil">0701 23 45 67</p>
+      </div>
+      <div class="column3">
+        <a herf="https://www.facebook.com/?locale=sv_SE">
+          <img
+            src="../facebok.png"
+            alt="Länk till vår facebook"
+            class="facebook"
+          />
+        </a>
+        <a herf="https://www.instagram.com/accounts/emailsignup/">
+          <img
+            src="../insta.png"
+            alt="Länk till vår instagram"
+            class="instagram"
+          />
+        </a>
+      </div>
+    </footer>
+  </body>
 </html>
