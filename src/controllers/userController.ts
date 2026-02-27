@@ -9,51 +9,57 @@ interface User {
   userPassword: string;
 }
 
-export const getUsers = async (_request: Request, response: Response) => {
+export const getUsers = async (_req: Request, res: Response) => {
   const results = await mongoDatabase
     .collection<User>('users')
     .find()
     .toArray();
-  response.json(results);
+  res.json(results);
 };
 
-export const getUser = async (
-  request: Request<{ id: ObjectId }, void, void, void>,
-  response: Response,
+export const getUserById = async (
+  req: Request<{ id: ObjectId }, void, void, void>,
+  res: Response,
 ) => {
-  const result = await mongoDatabase
-    .collection<OptionalId<User>>('users')
-    .findOne({
-      _id: new ObjectId(request.params.id),
-    });
-  if (!result) response.status(404).send('Användaren hittades inte');
-  else response.status(200).send(result);
+  try {
+    const result = await mongoDatabase
+      .collection<OptionalId<User>>('users')
+      .findOne({
+        _id: new ObjectId(req.params.id),
+      });
+    if (!result) res.status(404).send('User not found');
+    else res.status(200).send(result);
+  } catch (err) {
+    console.error('Error fetching user:', err);
+    return res.status(500).json({ error: 'Failed to fetch user' });
+  }
 };
 
 export const createUser = async (
-  request: Request<
+  req: Request<
     void,
-    { message: string; success: boolean },
+    void,
     { username: string; userEmail: string; userPassword: string },
     void
   >,
-  response: Response,
+  res: Response,
 ) => {
-  const { username, userEmail, userPassword } = request.body;
-  console.log(username);
-  await mongoDatabase.collection<OptionalId<User>>('users').insertOne({
-    username: username,
-    userEmail: userEmail,
-    userPassword: userPassword,
-  });
-  response.status(201).json({
-    message: 'En användare har lagts till!',
-    success: true,
-  });
+  const { username, userEmail, userPassword } = req.body;
+  try {
+    await mongoDatabase.collection<OptionalId<User>>('users').insertOne({
+      username: username,
+      userEmail: userEmail,
+      userPassword: userPassword,
+    });
+  } catch (err) {
+    console.error('Error creating user:', err);
+    return res.status(500).json({ error: 'Failed to create user' });
+  }
+  res.status(201).send('User created successfully');
 };
 
 export const updateUser = async (
-  request: Request<
+  req: Request<
     { id: ObjectId },
     void,
     {
@@ -63,22 +69,28 @@ export const updateUser = async (
     },
     void
   >,
-  response: Response,
+  res: Response,
 ) => {
-  const { username, userEmail, userPassword } = request.body;
-  const result = await mongoDatabase
-    .collection<OptionalId<User>>('users')
-    .updateOne(
-      {
-        _id: new ObjectId(request.params.id),
-      },
-      {
-        $set: {
-          username: username,
-          userEmail: userEmail,
-          userPassword: userPassword,
+  const { username, userEmail, userPassword } = req.body;
+  try {
+    const result = await mongoDatabase
+      .collection<OptionalId<User>>('users')
+      .updateOne(
+        {
+          _id: new ObjectId(req.params.id),
         },
-      },
-    );
-  response.status(200).send(result);
+        {
+          $set: {
+            username: username,
+            userEmail: userEmail,
+            userPassword: userPassword,
+          },
+        },
+      );
+    if (result.matchedCount === 0) res.status(404).send('User not found');
+    else res.status(200).send(result);
+  } catch (err) {
+    console.error('Error updating user:', err);
+    return res.status(500).json({ error: 'Failed to update user' });
+  }
 };
