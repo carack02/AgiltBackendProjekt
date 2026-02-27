@@ -57,18 +57,18 @@ img {
   margin-top: 36px;
 }
 
-h1 {
+#h1 {
   color: var(--textLight);
   font-weight: 700;
   margin: 10px auto;
 }
 
-h1 a {
+#h1 a {
   color: var(--textLight);
   text-decoration: none;
 }
 
-h2 {
+#h2 {
   color: var(--textLight);
   font-weight: 500;
   margin: 0px;
@@ -78,7 +78,7 @@ h2 {
   margin-top: 20px;
 }
 
-p {
+.p {
   font-weight: 400;
   color: var(--textLight);
 }
