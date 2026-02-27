@@ -42,7 +42,7 @@ h4 {
   font-weight: 600;
   line-height: 1.2;
   text-align: center;
-  margin: 30px;
+  margin: 30px auto;
 }
 
 .container {
