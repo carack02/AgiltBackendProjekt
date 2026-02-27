@@ -4,12 +4,14 @@ const router = express.Router();
 
 import {
   getFlashcards,
+  getFlashcard,
   createFlashcard,
   updateFlashcard,
   deleteFlashcard,
 } from '../controllers/flashcardController.ts';
 
 router.get('/flashcards', getFlashcards);
+router.get('/flashcard/:id', getFlashcard);
 router.post('/flashcard', createFlashcard);
 router.put('/flashcard/:id', updateFlashcard);
 router.delete('/flashcard/:id', deleteFlashcard);
