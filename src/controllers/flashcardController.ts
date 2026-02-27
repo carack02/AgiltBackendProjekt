@@ -1,6 +1,8 @@
 import type { Request, Response } from 'express';
-import { mysqlDatabase } from '../connectionMySQL.ts';
+import mysqlpool from '../connectionMysql.ts';
 import type { RowDataPacket, ResultSetHeader } from 'mysql2';
+
+const mysqlDatabase = mysqlpool;
 
 interface Flashcard extends RowDataPacket {
   flashcardId?: number;
