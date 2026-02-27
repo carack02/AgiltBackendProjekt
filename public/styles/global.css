@@ -63,7 +63,9 @@ body {
 
 main {
   flex: 1;
-  margin: 50px auto 90px;
+  width: 300px;
+  min-height: 600px;
+  margin: 0 auto 30px;
 }
 
 h1,
@@ -148,6 +150,10 @@ input:focus {
   h3,
   h4 {
     line-height: 1.5;
+  }
+  main {
+    width: 400px;
+    margin: 50px auto 90px;
   }
 }
 
