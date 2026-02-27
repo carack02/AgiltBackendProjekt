@@ -1,0 +1,156 @@
+:root {
+  --primary: #0f2c47;
+  --secondary: #347ec2;
+  /* --background: #ddd4c6; */
+  --background: #f8f8f8;
+  --textLight: #f8f8f8;
+  --textDark: #0d2944;
+  --radius: 8px;
+}
+
+footer {
+  color: var(--primary);
+  display: flex;
+}
+
+.footerFlex {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--primary);
+  /* text-align: center; */
+  align-items: center;
+}
+
+.column1 {
+  order: 3;
+}
+
+.column2 {
+  order: 1;
+  text-align: left;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.column3 {
+  display: flex;
+  flex-direction: row;
+  order: 2;
+  gap: 10px;
+}
+
+img {
+  color: var(--textLight);
+  background-color: var(--primary);
+  width: 50px;
+}
+
+.facebook {
+  margin-top: 36px;
+  margin-bottom: 26px;
+}
+
+.instagram {
+  margin-bottom: 26px;
+  margin-top: 36px;
+}
+
+h1 {
+  color: var(--textLight);
+  font-weight: 700;
+  margin: 10px auto;
+}
+
+h1 a {
+  color: var(--textLight);
+  text-decoration: none;
+}
+
+h2 {
+  color: var(--textLight);
+  font-weight: 500;
+  margin: 0px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+p {
+  font-weight: 400;
+  color: var(--textLight);
+}
+
+.coppy {
+  margin-bottom: 41px;
+}
+
+@media (min-width: 800px) {
+  .footerFlex {
+    flex-direction: row;
+    width: 100vw;
+    gap: 68px;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+  }
+
+  .column1 {
+    order: 1;
+  }
+
+  .column2 {
+    order: 2;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    margin-top: 0px;
+  }
+
+  .column3 {
+    order: 3;
+    text-align: left;
+    flex-direction: column;
+  }
+
+  img {
+    width: 45px;
+    height: 45px;
+    gap: 20px;
+  }
+  .facebook {
+    margin-top: 5px;
+    margin-bottom: 0px;
+  }
+  .instagram {
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    margin-top: 52px;
+    margin: 0px;
+    /* padding-left: 219px;
+    padding-right: 128px; */
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    margin-top: 0px;
+    margin: 0px;
+  }
+
+  p {
+    font-size: 1rem;
+    /* margin-right: 68px; */
+  }
+  .coppy {
+    margin-top: 21px;
+    margin: 0px;
+    /* margin-left: 219px;
+    margin-right: 68px; */
+  }
+}
