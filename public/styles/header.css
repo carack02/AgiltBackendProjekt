@@ -39,9 +39,9 @@ header {
   max-height: 80px;
 }
 
-#h1 {
+#h1-header {
   color: var(--textLight);
-  margin-left: 81px;
+  margin-left: 50px;
 }
 
 .hamburger-menu {
@@ -165,6 +165,9 @@ header {
 }
 
 @media (min-width: 1024px) {
+  #h1-header {
+    margin-left: 50px;
+  }
   .hamburger-menu {
     display: none;
   }
@@ -183,7 +186,7 @@ header {
     border: none;
     opacity: 1;
     background-color: transparent;
-    margin-right: 76px;
+    margin-right: 50px;
     font-weight: 600;
     font-size: larger;
   }

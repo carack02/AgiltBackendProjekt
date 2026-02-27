@@ -38,7 +38,7 @@ footer {
   display: flex;
   flex-direction: row;
   order: 2;
-  gap: 10px;
+  gap: 20px;
 }
 
 img {
@@ -61,6 +61,7 @@ img {
   color: var(--textLight);
   font-weight: 700;
   margin: 10px auto;
+  text-align: left;
 }
 
 #h1 a {
