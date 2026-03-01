@@ -36,7 +36,7 @@ header {
   justify-content: space-between;
   align-items: center;
   background-color: var(--primary);
-  max-height: 80px;
+  height: 80px;
 }
 
 #h1-header {
