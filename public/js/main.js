@@ -6,6 +6,10 @@ async function loadHtml(selector, url) {
   const res = await fetch(url);
   if (!res.ok) return;
   el.innerHTML = await res.text();
+  if (selector === '#footerContainer') {
+    const container = document.querySelector(selector);
+    container.classList.add('footerFlex');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
