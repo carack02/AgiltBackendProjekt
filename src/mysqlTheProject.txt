@@ -11,14 +11,16 @@ CREATE TABLE category(
 CREATE TABLE collections(
     collectionId INT NOT NULL AUTO_INCREMENT,
     collectionName VARCHAR(50) NOT NULL,
+    sharedCollection BOOLEAN DEFAULT FALSE,
+    createdBy VARCHAR(50) NOT NULL,
     PRIMARY KEY (collectionId)
 );
 
-INSERT INTO collections(collectionName)
-VALUES('Min collection 1'),
-('Min collection 2'),
-('Min collection 3'),
-('Min collection 4');
+INSERT INTO collections(collectionName, createdBy, sharedCollection)
+VALUES('Min collection 1','Me',0 ),
+('Min collection 2','me', 1),
+('Min collection 3','meeee', 1),
+('Min collection 4','meee2',0);
 
 INSERT INTO category(categoryName)
 VALUES('History'),
@@ -31,14 +33,14 @@ VALUES('History'),
       ('Physics');
 
 CREATE TABLE flashcard(
-    collectionId INT NOT NULL,
+    collectionId INT,
     flashcardId INT NOT NULL AUTO_INCREMENT,
 	flashcardQuestion VARCHAR(500) NOT NULL,
     flashcardAnswer VARCHAR(500) NOT NULL,
     categoryId INT NOT NULL,
 	PRIMARY KEY (flashcardId),
     FOREIGN KEY (categoryId) REFERENCES category(categoryId),
-    FOREIGN KEY (collectionId) REFERENCES collections(collectionId)
+    FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE SET NULL
 );
 
 INSERT INTO flashcard(flashcardQuestion, flashcardAnswer,collectionId, categoryId)
@@ -52,7 +54,7 @@ VALUES('Vilket år föll Berlinmuren och varför var det viktigt?', '1989. Muren
       ('Vad säger Newtons första lag?', 'Ett föremål förblir i vila eller rör sig med konstant hastighet om ingen yttre kraft påverkar det.',2, 8);
 
 CREATE TABLE quiz(
-    collectionId INT NOT NULL,
+    collectionId INT,
     quizId INT NOT NULL AUTO_INCREMENT,
 	quizQuestion VARCHAR(500) NOT NULL,
     quizCorrectAnswer VARCHAR(500) NOT NULL,
@@ -60,7 +62,8 @@ CREATE TABLE quiz(
     quizAnswer2 VARCHAR(500) NOT NULL,
     categoryId INT NOT NULL,
 	PRIMARY KEY (quizId),
-    FOREIGN KEY (categoryId) REFERENCES category(categoryId)
+    FOREIGN KEY (categoryId) REFERENCES category(categoryId),
+    FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE SET NULL
 );
 
 INSERT INTO quiz(quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, collectionId, categoryId)
@@ -75,10 +78,12 @@ VALUES(
 SELECT * FROM category;
 SELECT * FROM collections;
 SELECT * FROM flashcard;
+SELECT * FROM flashcard WHERE collectionId = 2;
 SELECT * FROM quiz;
-SELECT * FROM collections WHERE collectionId = 2;
+SELECT * FROM collections WHERE collectionId = 1;
+
 
 DROP TABLE flashcard;
-DROP TABLE collections;
 DROP TABLE quiz;
+DROP TABLE collections;
 DROP TABLE category;
