@@ -2,10 +2,12 @@ import express from 'express';
 import userRoutes from './routes/userRoutes.ts';
 import quizRoutes from './routes/quizRoutes.ts';
 import flashcardRoutes from './routes/flashcardRoutes.ts';
+import collectionRoutes from './routes/collectionRoutes.ts';
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use(express.json());
 
 app.use('/api', userRoutes);
 app.use('/api', flashcardRoutes);
