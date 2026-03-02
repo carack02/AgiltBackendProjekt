@@ -3,15 +3,57 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Create Quiz</title>
+    <script type="module" src="./js/main.js" defer></script>
+    <script type="module" src="./js/createQuiz.js" defer></script>
+    <link rel="stylesheet" href="./styles/global.css" />
     <link rel="stylesheet" href="./styles/header.css" />
     <link rel="stylesheet" href="./styles/footer.css" />
+    <link rel="stylesheet" href="./styles/createQuiz.css" />
+    <title>Create Quiz</title>
   </head>
 
   <body>
     <header id="headerContainer"></header>
-    <main>Main saker</main>
+    <main>
+      <h2>Skapa quiz</h2>
+      <div class="collection-info">
+        <div class="svg-box"></div>
+        <div>
+          <input
+            class="collection-name-textbox"
+            type="text"
+            placeholder="Samlingsnman"
+          />
+        </div>
+      </div>
+
+      <div class="add-question-text">Lägg till fråga</div>
+
+        <div class="card-select">
+          <select class="cardSelect">
+            <option value="10">Test</option>
+          </select>
+        </div>
+        <div class="shadows">
+          <div class="shadowbox"></div>
+        <div class="shadowboxtwo"></div>
+
+      </div>
+
+          <input class="question-box" type="text" placeholder="Fråga..." />
+          <input
+            id="correctAnswer"
+            class="answer"
+            type="text"
+            placeholder="Rätt svar..."
+          />
+          <input class="answer" type="text" placeholder="Alternativ..." />
+          <input class="answer" type="text" placeholder="Alternativ..." />
+          <input class="answer" type="text" placeholder="Alternativ..." />
+          <button>Lägg till</button>
+
+      </div>
+    </main>
     <footer id="footerContainer"></footer>
   </body>
 </html>
