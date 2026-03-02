@@ -25,7 +25,7 @@ async function loginUser(event) {
       return;
     }
     localStorage.setItem('username', JSON.stringify(username));
-    window.location.href = 'index.html';
+    window.location.href = 'createQuiz.html';
   } catch (err) {
     console.error('Error logging in user', err);
   }
