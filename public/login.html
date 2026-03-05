@@ -17,17 +17,19 @@
       <div class="container">
         <h2>Login</h2>
         <div>
-          <form id="form" action="" autocomplete="off">
-            <label for="username">Användarnamn</label>
+          <form id="loginForm" action="" autocomplete="off">
+            <label class="label" for="username">Användarnamn</label>
             <input
+              class="input"
               type="text"
               id="username"
               name="username"
               placeholder="Ange ditt användarnamn"
               required
             />
-            <label for="password">Lösenord</label>
+            <label class="label" for="password">Lösenord</label>
             <input
+              class="input"
               type="password"
               id="password"
               name="password"
@@ -35,12 +37,12 @@
               required
             />
             <button class="button" type="submit">Logga in</button>
-            <p>
+            <p id="create-accout-p">
               Har du inget konto?<a id="create-accout" href="createAccount.html"
                 >Skapa konto</a
               >
             </p>
-            <p id="error-message"></p>
+            <p class="error-message"></p>
           </form>
         </div>
       </div>

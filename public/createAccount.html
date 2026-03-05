@@ -18,49 +18,52 @@
       <div class="container">
         <h2>Skapa konto</h2>
         <div>
-          <form id="form" action="" autocomplete="off">
-            <label for="username">Användarnamn</label>
+          <form id="registerForm" action="" autocomplete="off">
+            <label class="label" for="username">Användarnamn</label>
             <input
+              class="input"
               type="text"
               id="username"
               name="username"
+              minlength="2"
               placeholder="Ange ditt användarnamn"
               required
             />
-            <label for="username">Email</label>
+            <label class="label" for="username">Email</label>
             <input
+              class="input"
               type="email"
               id="email"
               name="email"
               placeholder="Ange email"
               required
             />
-            <label for="password1">Lösenord</label>
+            <label class="label" for="password1">Lösenord</label>
             <input
+              class="input"
               placeholder="Ange lösenord"
               type="password"
               id="password1"
               name="password1"
               minlength="10"
               maxlength="20"
-              pattern="[A-Za-z0-9]+[?!.]"
               required
             />
-            <label for="password2">Lösenord igen</label>
+            <label class="label" for="password2">Lösenord igen</label>
             <input
+              class="input"
               placeholder="Ange lösenord igen"
               type="password"
               id="password2"
               name="password2"
               minlength="10"
               maxlength="20"
-              pattern="[A-Za-z0-9]+[?!.]"
               required
             />
             <button class="create-account-btn button" type="submit">
               Skapa konto
             </button>
-            <p id="error-message"></p>
+            <p class="error-message"></p>
           </form>
         </div>
       </div>
