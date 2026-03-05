@@ -92,18 +92,48 @@ p {
   color: var(--textDark);
 }
 
-img {
+/* .img {
   max-width: 100%;
   display: block;
-}
+} */
 
-label {
+.label {
   display: block;
   margin-top: 10px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
-textarea {
+.select {
+  width: 320px;
+  padding: 15px;
+  background-color: var(--background);
+  border-radius: var(--radius);
+  border: 1px solid var(--primary);
+  margin-bottom: 10px;
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+  letter-spacing: 0.5px;
+  font-size: 1rem;
+}
+
+.textarea {
+  font-family: 'Poppins', 'Montserrat', sans-serif;
+  border-radius: 10px;
+  border: 1px solid #888787;
+  padding: 10px;
+  min-width: 100%;
+  max-width: 100%;
+  font-size: 0.8rem;
+  font-weight: 100;
+  letter-spacing: 0.5px;
+}
+
+.textarea:focus {
+  outline: none;
+  outline: 1px solid #888787;
+  border-radius: 10px;
+}
+
+.input {
   font-family: 'Poppins', 'Montserrat', sans-serif;
   border-radius: 8px;
   padding: 10px;
@@ -113,28 +143,13 @@ textarea {
   letter-spacing: 0.5px;
 }
 
-textarea:focus {
+.input:focus {
   outline: 1px solid #222;
   color: #222;
   border-radius: 8px;
 }
 
-input {
-  font-family: 'Poppins', 'Montserrat', sans-serif;
-  border-radius: 8px;
-  padding: 10px;
-  width: 100%;
-  font-size: 0.8rem;
-  font-weight: 100;
-  letter-spacing: 0.5px;
-}
-
-input:focus {
-  outline: 1px solid #222;
-  color: #222;
-  border-radius: 8px;
-}
-
+a,
 a.button {
   text-decoration: none;
   display: inline-block;
@@ -149,18 +164,21 @@ a.button {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 300px;
+  width: 320px;
   width: 100%;
-  margin: 30px auto;
-  padding: 1rem;
+  margin: 10px auto;
+  padding: 10px;
   border: 1px solid rgb(34, 34, 34, 0.5);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
   border-radius: var(--radius);
 }
 
 .button {
-  padding: 16px;
-  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  margin-top: 10px;
   width: 100%;
   color: var(--textLight);
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
@@ -182,6 +200,10 @@ a.button {
   font-weight: 300;
 }
 
+.checkbox:checked {
+  accent-color: var(--primary);
+}
+
 @media screen and (min-width: 600px) {
   h1,
   h2,
@@ -196,6 +218,18 @@ a.button {
   }
 
   .container {
+    width: 400px;
+  }
+
+  .select {
+    width: 400px;
+  }
+
+  .input {
+    width: 400px;
+  }
+
+  .card {
     width: 400px;
   }
 }

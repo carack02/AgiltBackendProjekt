@@ -63,6 +63,7 @@ export const createUser = async (
     });
     console.log('Password from user', userPassword);
     console.log('Hashed password', hashedPassword);
+    // if(username)
   } catch (err) {
     console.error('Error creating user:', err);
     return res
