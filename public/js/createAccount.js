@@ -81,7 +81,7 @@ async function createUser(event) {
     });
     const data = await res.json();
     console.log('data', data);
-    // window.location.href = 'login.html';
+    window.location.href = 'login.html';
   } catch (err) {
     console.error('Error creating user account', err);
   }
