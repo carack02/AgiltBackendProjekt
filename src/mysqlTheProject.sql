@@ -9,14 +9,14 @@ CREATE TABLE category(
 );
 
 INSERT INTO category(categoryName)
-VALUES('History'),
-      ('Mathematics'),
-      ('Geography'),
-      ('Psychology'),
-      ('Biology'),
-      ('Chemistry'),
+VALUES('Historia'),
+      ('Matematik'),
+      ('Geografi'),
+      ('Psykologi'),
+      ('Biologi'),
+      ('Kemi'),
       ('UXD'),
-      ('Physics');
+      ('Fysik');
 
 CREATE TABLE collections(
     collectionId INT NOT NULL AUTO_INCREMENT,
@@ -75,6 +75,21 @@ VALUES(
     ('hur många ben har en tusenfoting?', 'vet ej', '1000', '12 000','annat',1, 5
       );
 
+CREATE TABLE ratings(
+    ratingId INT NOT NULL AUTO_INCREMENT,
+    ratingScore INT,
+    collectionId INT NOT NULL,
+    ratedBy VARCHAR(50) NOT NULL,
+    PRIMARY KEY (ratingId),
+    FOREIGN KEY (collectionId) REFERENCES collections(collectionId)
+);
+
+INSERT INTO ratings(ratingScore, collectionId, ratedBy)
+VALUES (3, 2, 'carro'),
+(4, 2, 'test'),
+(4, 1, 'test'),
+(3, 2, 'test2'),
+(2, 2, 'test3');
 
 SELECT * FROM category;
 SELECT * FROM collections;
@@ -82,9 +97,12 @@ SELECT * FROM flashcard;
 SELECT * FROM flashcard WHERE collectionId = 2;
 SELECT * FROM quiz;
 SELECT * FROM collections WHERE collectionId = 1;
-
+SELECT * FROM ratings;
+SELECT * FROM ratings WHERE collectionId = 2;
+SELECT AVG(ratingScore) FROM ratings WHERE collectionId = 2;
 
 DROP TABLE flashcard;
 DROP TABLE quiz;
 DROP TABLE collections;
 DROP TABLE category;
+DROP TABLE ratings;
