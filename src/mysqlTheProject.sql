@@ -21,6 +21,7 @@ VALUES('Historia'),
 CREATE TABLE collections(
     collectionId INT NOT NULL AUTO_INCREMENT,
     collectionName VARCHAR(50) NOT NULL,
+    collectionType VARCHAR(10) NOT NULL,
     sharedCollection BOOLEAN DEFAULT FALSE,
     createdBy VARCHAR(50) NOT NULL,
     categoryId INT NOT NULL,
@@ -28,22 +29,24 @@ CREATE TABLE collections(
     FOREIGN KEY (categoryId) REFERENCES category(categoryId)
 );
 
-INSERT INTO collections(collectionName, createdBy, sharedCollection)
-VALUES('Min collection 1','Me', 0),
-('Min collection 2','me', 1),
-('Min collection 3','meeee', 1),
-('Min collection 4','meee2', 0);
+INSERT INTO collections(collectionName,collectionType, createdBy, sharedCollection, categoryId)
+VALUES('Min collection 1','flash',1,0, 3 ),
+('Min collection 2','flash',1, 1, 2),
+('Min collection 3','quiz',1, 1,1),
+('Min collection 4','quiz',1,0,4);
 
 CREATE TABLE flashcard(
     collectionId INT,
     flashcardId INT NOT NULL AUTO_INCREMENT,
 	flashcardQuestion VARCHAR(500) NOT NULL,
     flashcardAnswer VARCHAR(500) NOT NULL,
+    categoryId INT NOT NULL,
 	PRIMARY KEY (flashcardId),
+    FOREIGN KEY (categoryId) REFERENCES category(categoryId),
     FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE SET NULL
 );
 
-INSERT INTO flashcard(flashcardQuestion, flashcardAnswer, collectionId, categoryId)
+INSERT INTO flashcard(flashcardQuestion, flashcardAnswer,collectionId, categoryId)
 VALUES('Vilket år föll Berlinmuren och varför var det viktigt?', '1989. Murens fall symboliserade slutet på kalla kriget och början på Tysklands återförening.', 2, 1),
       ('Vad är 2+2?', '4', 2, 2),
       ('Vilken är världens längsta flod?', 'Nilen (ibland anses Amazonas vara längst beroende på mätmetod).',2, 3),
@@ -61,18 +64,20 @@ CREATE TABLE quiz(
     quizAnswer1 VARCHAR(500) NOT NULL,
     quizAnswer2 VARCHAR(500) NOT NULL,
     quizAnswer3 VARCHAR(500) NOT NULL,
-    categoryId INT NOT NULL,
 	PRIMARY KEY (quizId),
-    FOREIGN KEY (categoryId) REFERENCES category(categoryId),
     FOREIGN KEY (collectionId) REFERENCES collections(collectionId) ON DELETE SET NULL
 );
 
-INSERT INTO quiz(quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, quizAnswer3, collectionId, categoryId)
+INSERT INTO quiz(quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, quizAnswer3, collectionId)
 VALUES(
-       'hur många laxar?', '6', '5', '12','annat',1, 5),
-    ('hur många Sjömän?', '7', '5', '12','annat',1, 1),
-    ('Hur många kalorier i ett glas vatten?', '0', '5','annat', '12',1, 5),
-    ('hur många ben har en tusenfoting?', 'vet ej', '1000', '12 000','annat',1, 5
+       'hur många laxar?', '6', '5', '12','annat',1),
+    ('hur många Sjömän?', '7', '5', '12','annat',1),
+    ('Hur många kalorier i ett glas vatten?', '0', '5','annat', '12',1),
+    ('hur många ben har en tusenfoting?', 'vet ej', '1000', '12 000','annat',1),
+    ('hur många laxar?', '6', '5', '12','annat',3),
+    ('hur många Sjömän?', '7', '5', '12','annat',3),
+    ('Hur många kalorier i ett glas vatten?', '0', '5','annat', '12',3),
+    ('hur många ben har en tusenfoting?', 'vet ej', '1000', '12 000','annat',3
       );
 
 CREATE TABLE ratings(
@@ -103,6 +108,6 @@ SELECT AVG(ratingScore) FROM ratings WHERE collectionId = 2;
 
 DROP TABLE flashcard;
 DROP TABLE quiz;
+DROP TABLE ratings;
 DROP TABLE collections;
 DROP TABLE category;
-DROP TABLE ratings;

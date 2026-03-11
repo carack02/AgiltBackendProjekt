@@ -6,30 +6,45 @@ import type { RowDataPacket } from 'mysql2';
 const db = mysqlpool;
 
 interface Collection extends RowDataPacket {
-  collectionId: number;
+  collectionId?: number;
   collectionName: string;
+  collectionType: string;
+  collectionCategory: number;
   sharedCollection: boolean;
   createdBy: string;
   categoryId: number;
 }
 
 export async function createCollection(req: Request, res: Response) {
-  const { collectionName, sharedCollection, createdBy, categoryId } = req.body;
+  const {
+    collectionName,
+    collectionType,
+    sharedCollection,
+    createdBy,
+    categoryId,
+  } = req.body;
   let affectedRows: number;
-  if (!collectionName || !sharedCollection || !createdBy || !categoryId) {
-    return res
-      .status(400)
-      .json({ error: 'collection name, shared status and creator required' });
+  if (
+    !collectionName ||
+    !collectionType ||
+    sharedCollection === undefined ||
+    !createdBy ||
+    !categoryId
+  ) {
+    return res.status(400).json({
+      error:
+        'collection name, collection type, shared status, creator, and category ID required',
+    });
   }
   try {
     const [results] = await db.query<ResultSetHeader>(
-      'INSERT INTO collections (collectionName, sharedCollection, createdBy, categoryId) VALUES (?,?,?,?)',
-      [collectionName, sharedCollection, createdBy, categoryId],
+      'INSERT INTO collections (collectionName, collectionType, sharedCollection, createdBy, categoryId) VALUES (?,?,?,?,?)',
+      [collectionName, collectionType, sharedCollection, createdBy, categoryId],
     );
 
     affectedRows = results.affectedRows;
-  } catch {
-    return res.status(500).json({ message: 'something went wrong' });
+  } catch (err) {
+    return res.status(500).json({ message: 'something went wrong', err });
   }
 
   return res.status(201).json({
@@ -89,14 +104,36 @@ export async function getCollectionById(req: Request, res: Response) {
 
 export async function updateCollection(req: Request, res: Response) {
   const { id } = req.params;
-  const { collectionName, sharedCollection, categoryId } = req.body;
-  if (!collectionName) {
-    return res.status(400).json({ error: 'collection name required' });
+  const {
+    collectionName,
+    collectionType,
+    sharedCollection,
+    createdBy,
+    categoryId,
+  } = req.body;
+  if (
+    !collectionName ||
+    !collectionType ||
+    sharedCollection === undefined ||
+    !createdBy ||
+    !categoryId
+  ) {
+    return res.status(400).json({
+      error:
+        'collection name, type, shared status, creator, and category ID required',
+    });
   }
   try {
     const [results] = await db.query<ResultSetHeader>(
-      'UPDATE collections SET collectionName = ?, sharedCollection = ?,categoryId = ? WHERE collectionId = ?',
-      [collectionName, sharedCollection, categoryId, id],
+      'UPDATE collections SET collectionName = ?, collectionType = ?, sharedCollection = ?, createdBy = ?, categoryId = ? WHERE collectionId = ?',
+      [
+        collectionName,
+        collectionType,
+        sharedCollection,
+        createdBy,
+        categoryId,
+        id,
+      ],
     );
     if (results.affectedRows === 0) {
       res
@@ -106,5 +143,21 @@ export async function updateCollection(req: Request, res: Response) {
   } catch (err) {
     console.error('Error when using put ', err);
   }
+
   return res.json({ message: 'updateCollection was run' });
+}
+
+export async function getCollectionByType(req: Request, res: Response) {
+  const { type } = req.params;
+  let returnData;
+  try {
+    const [results] = await db.query<Collection[]>(
+      'SELECT * FROM collections WHERE collectionType = ?',
+      [type],
+    );
+    returnData = results;
+  } catch (err) {
+    console.error('There was an error getting the collection', err);
+  }
+  res.status(201).json({ message: 'getCollectionByType was run', returnData });
 }

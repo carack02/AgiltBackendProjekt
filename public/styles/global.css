@@ -250,6 +250,17 @@ a.button {
   transition: all 0.2s ease;
 }
 
+.error-message {
+  color: rgb(182, 25, 25);
+  font-size: 14px;
+  font-weight: 300;
+}
+.info-message {
+  color: rgb(0, 54, 0);
+  font-size: 14px;
+  font-weight: 300;
+}
+
 .checkbox:checked {
   accent-color: var(--primary);
 }

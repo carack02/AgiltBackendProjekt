@@ -6,29 +6,41 @@
   --textDark: #0d2944;
   --radius: 8px;
 }
+
+.create-quiz-container {
+  /* border: 1px solid black; */
+  /* padding: 20px; */
+}
+
 .collection-info {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
-  margin: 0 auto;
+  margin-bottom: 5px;
+}
+
+.section1 {
+  display: flex;
 }
 
 .collection-name-textbox {
   width: 14rem;
+  height: 42px;
 }
 
 .svg-select-container {
-  position: relative;
-  display: inline-block;
-  width: 100%;
+  /* position: relative;
+  display: inline-block; */
+  /* width: 100%; */
 }
 
 .svg-select-button {
   display: flex;
-  min-width: 60px;
-  min-height: 60px;
+  width: 42px;
+  height: 42px;
   align-items: center;
   justify-content: center;
   border: solid 1px black;
@@ -37,6 +49,7 @@
   background-color: var(--background);
   padding: 1px;
   color: black;
+  cursor: pointer;
 }
 
 .svgOptions {
@@ -47,25 +60,35 @@
   z-index: 10;
   position: absolute;
   display: flex;
-  top: 0px;
-  left: 65px;
-  gap: 1rem;
+  width: 338px;
+  flex-wrap: wrap;
+  top: 45px;
+  left: 0px;
+  gap: 0.5rem;
   justify-content: center;
   margin-bottom: 2rem;
   background-color: var(--background);
   border: solid 1px black;
   border-radius: 16px;
-  padding: 10px;
+  padding: 6px;
+}
+
+.svgImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .svgOption {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  width: 60px;
-  padding: 2px;
+  height: 42px;
+  width: 42px;
+  /* padding: 2px; */
   background-color: var(--background);
+  cursor: pointer;
+  border-radius: 16px;
   /* background-color: red; */
 }
 .svgImage {
@@ -74,9 +97,61 @@
   width: 50px;
 }
 
+.create-collection-button {
+  display: flex;
+  min-width: 42px;
+  height: 42px;
+  font-size: 10px;
+  padding: 3px;
+  justify-content: center;
+  align-items: center;
+  /* border: solid 1px black; */
+  border: none;
+  border-radius: 10px;
+  background-color: #0d8533;
+  color: white;
+  cursor: pointer;
+}
+.collection-out {
+  margin-left: auto;
+  width: 100%;
+  text-align: right;
+  height: 20px;
+}
+.select-collection-info {
+  margin-top: 15px;
+}
+
+#Select-Collection {
+  width: 100%;
+  height: 30px;
+  font-size: 15px;
+  border-radius: 10px;
+  margin: 3px 0 10px 0;
+}
+
+.input-section {
+  display: none;
+}
+
+.input-section.active {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* .svgTitle {
+  font-size: 10px;
+  font-weight: 300;
+} */
 .add-question-text {
-  margin: 2.5rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+  margin: 1rem 0 0.2rem 0;
   font-weight: 600;
+  margin-right: auto;
 }
 .card-select {
   display: flex;
@@ -84,7 +159,7 @@
   width: 100%;
 }
 .cardSelect {
-  margin: 0 1rem;
+  margin: 0 0 0 auto;
 }
 .shadows {
   position: relative;
@@ -102,4 +177,18 @@
 .answer {
   margin: 0.5rem 0;
   height: 3rem;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.deleteButton {
+  background-color: rgb(107, 0, 0);
+  color: white;
+}
+
+.quiestions-out {
+  height: 20px;
 }

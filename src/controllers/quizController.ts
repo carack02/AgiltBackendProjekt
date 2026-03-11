@@ -7,7 +7,6 @@ import type { RowDataPacket } from 'mysql2';
 
 interface Quiz extends RowDataPacket {
   quizId: number;
-  collectionId: number;
   quizQuestion: string;
   quizCorrectAnswer: string;
   quizAnswer1: string;
@@ -23,36 +22,33 @@ export async function getQuizzes(_req: Request, res: Response) {
 
 export async function createQuiz(req: Request, res: Response) {
   const {
-    collectionId,
     quizQuestion,
     quizCorrectAnswer,
     quizAnswer1,
     quizAnswer2,
     quizAnswer3,
-    categoryId,
+    collectionId,
   } = req.body;
 
   if (
-    !collectionId ||
     !quizQuestion ||
     !quizCorrectAnswer ||
     !quizAnswer1 ||
     !quizAnswer2 ||
     !quizAnswer3 ||
-    !categoryId
+    !collectionId
   ) {
     return res.status(400).json({ error: 'All fields are required' });
   }
   try {
     const [results] = await db.query<ResultSetHeader>(
-      'INSERT INTO quiz (quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, quizAnswer3, categoryId, collectionId) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO quiz (quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, quizAnswer3, collectionId) VALUES (?, ?, ?, ?, ?, ?)',
       [
         quizQuestion,
         quizCorrectAnswer,
         quizAnswer1,
         quizAnswer2,
         quizAnswer3,
-        categoryId,
         collectionId,
       ],
     );
@@ -61,7 +57,7 @@ export async function createQuiz(req: Request, res: Response) {
     }
   } catch (err) {
     console.error('Error creating quiz:', err);
-    return res.status(500).json({ error: 'Failed to create quiz' });
+    return res.status(500).json({ error: 'Failed to create quiz', err });
   }
   res.status(201).json({ message: 'Quiz created successfully' });
 }
@@ -105,13 +101,11 @@ export async function getQuizById(req: Request, res: Response) {
 export async function updateQuiz(req: Request, res: Response) {
   const { id } = req.params;
   const {
-    collectionId,
     quizQuestion,
     quizCorrectAnswer,
     quizAnswer1,
     quizAnswer2,
     quizAnswer3,
-    categoryId,
   } = req.body;
 
   if (
@@ -119,24 +113,20 @@ export async function updateQuiz(req: Request, res: Response) {
     !quizCorrectAnswer ||
     !quizAnswer1 ||
     !quizAnswer2 ||
-    !quizAnswer3 ||
-    !categoryId ||
-    !collectionId
+    !quizAnswer3
   ) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
     const [results] = await db.query<ResultSetHeader>(
-      'UPDATE quiz SET quizQuestion = ?, quizCorrectAnswer = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, categoryId = ?, collectionId = ? WHERE quizId = ?',
+      'UPDATE quiz SET quizQuestion = ?, quizCorrectAnswer = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ? WHERE quizId = ?',
       [
         quizQuestion,
         quizCorrectAnswer,
         quizAnswer1,
         quizAnswer2,
         quizAnswer3,
-        categoryId,
-        collectionId,
         id,
       ],
     );
@@ -148,6 +138,26 @@ export async function updateQuiz(req: Request, res: Response) {
     res.json({ message: 'Quiz updated successfully' });
   } catch (err) {
     console.error('Error updating quiz:', err);
-    return res.status(500).json({ error: 'Failed to update quiz' });
+    return res.status(500).json({ error: 'Failed to update quiz', err });
+  }
+}
+
+export async function getQuizByCollection(req: Request, res: Response) {
+  const { collection } = req.params;
+
+  try {
+    const [results] = await db.query<Quiz[]>(
+      'SELECT * FROM quiz WHERE collectionId = ?',
+      [collection],
+    );
+    if (results.length === 0) {
+      return res
+        .status(404)
+        .json({ error: 'No quiz with this collection found' });
+    }
+    res.json(results);
+  } catch (err) {
+    console.error('Error fetching quizzes:', err);
+    return res.status(500).json({ error: 'Failed to fetch collection' });
   }
 }
