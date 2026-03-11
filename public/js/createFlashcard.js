@@ -2,13 +2,16 @@
 // const flashcardForm = document.querySelectorAll('.flashcard-form');
 const accordion = document.querySelectorAll('.accordion');
 const deleteIcon = document.querySelector('.delete-icon');
-const createCollectionBtn = document.querySelector('.create-collection-btn');
 const inputCollectionName = document.querySelector('#collection-name');
 const checkboxSharedCollection = document.querySelector('#public');
 const inputCreatedBy = document.querySelector('#created-by');
-// const inputFlashcardQuestion = document.querySelector('.flashcard-question');
-// const inputFlashcardAnswer = document.querySelector('.flashcard-answer');
-// const saveFlashcardBtn = document.querySelector('.save-flashcard-btn');
+const inputCategory = document.querySelector('#category');
+const selectCollections = document.querySelector('#select-collections');
+const getCollections = document.querySelector('.get-collections');
+const inputFlashcardQuestion = document.querySelector('.flashcard-question');
+const inputFlashcardAnswer = document.querySelector('.flashcard-answer');
+const createCollectionBtn = document.querySelector('.create-collection-btn');
+const saveFlashcardBtn = document.querySelector('.save-flashcard-btn');
 // const deleteFlashcardBtn = document.querySelector('.delete-flashcard-btn');
 
 function openAccordion(event) {
@@ -36,9 +39,10 @@ async function createFlashcardCollection(event) {
   const collectionName = inputCollectionName.value.trim().toLocaleLowerCase();
   const sharedCollection = checkboxSharedCollection.checked;
   const createdBy = inputCreatedBy.value.trim().toLocaleLowerCase();
+  const categoryId = Number(inputCategory.value);
 
   try {
-    const res = await fetch('http://localhost:3000/api/collections', {
+    const res = await fetch('http://localhost:3000/api/collection', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
@@ -47,6 +51,7 @@ async function createFlashcardCollection(event) {
         collectionName,
         sharedCollection,
         createdBy,
+        categoryId,
       }),
     });
     const data = await res.json();
@@ -54,8 +59,28 @@ async function createFlashcardCollection(event) {
     localStorage.setItem('collectionName', JSON.stringify(collectionName));
     localStorage.setItem('sharedCollection', JSON.stringify(sharedCollection));
     localStorage.setItem('createdBy', JSON.stringify(createdBy));
+    localStorage.setItem('categoryId', JSON.stringify(categoryId));
   } catch (err) {
     console.error('Error creating collection', err);
   }
 }
 createCollectionBtn.addEventListener('click', createFlashcardCollection);
+
+async function getFlashcardCollections() {
+  try {
+    const res = await fetch('http://localhost:3000/api/collections');
+    const data = await res.json();
+
+    let fragment = document.createDocumentFragment();
+    for (let items of data) {
+      let option = document.createElement('option');
+      option.textContent = items.collectionName;
+      option.value = items.collectionId;
+      fragment.append(option);
+    }
+    selectCollections.append(fragment);
+  } catch (err) {
+    console.error('Error creating collection', err);
+  }
+}
+getCollections.addEventListener('click', getFlashcardCollections);

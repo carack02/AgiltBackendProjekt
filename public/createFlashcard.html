@@ -20,25 +20,24 @@
       <h2>Skapa Flashcard</h2>
       <form id='flashcard-form' action="" autocomplete="off">
         <label class="label" for="collection-name">Namnge samlingen</label>
-        <input class="input" type="text" id="collection-name" name="collection-name"
-          placeholder="Ange samlingens namn" required />
-          <label class="label" for="created-by">Skapad av</label>
-        <input class="input" type="text" id="created-by" name="created-by"
-          placeholder="Ange ditt användarnamn" required />
-        <button class='create-collection-btn'>Skapa samling</button>
+        <input class="input" type="text" id="collection-name" name="collection-name" placeholder="Ange samlingens namn"
+          required />
+        <label class="label" for="created-by">Skapad av</label>
+        <input class="input" type="text" id="created-by" name="created-by" placeholder="Ange ditt användarnamn"
+          required />
         <div>
-          <label class="label" for="categories">Välj en kategori</label>
+          <label class="label" for="categories">Välj kategori för samlingen</label>
           <div>
             <div class="input-div flex-row">
               <select class="select" name="category" id="category">
-                <option value="history">Historia</option>
-                <option value="mathematics">Matematik</option>
-                <option value="geography">Geografi</option>
-                <option value="psychology">Psykologi</option>
-                <option value="biology">Biologi</option>
-                <option value="chemistry">Kemi</option>
-                <option value="uxd">UXD</option>
-                <option value="physics">Fysik</option>
+                <option value="1">Historia</option>
+                <option value="2">Matematik</option>
+                <option value="3">Geografi</option>
+                <option value="4">Psykologi</option>
+                <option value="5">Biologi</option>
+                <option value="6">Kemi</option>
+                <option value="7">UXD</option>
+                <option value="8">Fysik</option>
               </select>
               <span class='unicode'>&#x2335</span>
             </div>
@@ -48,10 +47,18 @@
           <input class="checkbox" type="checkbox" id="public" name="public" checked />
           <label class="" for="public"> Publicera publikt</label>
         </div>
+        <button class='create-collection-btn'>Skapa samling</button>
+        <label class="label" for="select-collections">Välj samling</label>
+        <div class="input-div flex-row">
+          <select class="select" name="select-collections" id="select-collections">
+            <option value="">Välj en samling</option>
+          </select>
+          <span class='unicode get-collections' type=''button>&#x2335</span>
+        </div>
         <div class="card">
           <div class="accordion flex-row">
             <div class="flex-row space-between">
-              <h3 class='h3'>Första delen av flashcard titeln...</h3>
+              <h3 class='h3'>Första delen av frågan...</h3>
               <div class="flex-row icon-div">
                 <!-- <img type="button" class="delete-icon"  src="./img/delete.svg" /> -->
                 <span class='unicode'>&#x2335</span>

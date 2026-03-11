@@ -32,6 +32,7 @@
   position: relative;
   bottom: 2px;
   padding: 5px;
+  cursor: pointer;
 }
 
 .add-icon {
@@ -65,4 +66,8 @@
 a.add-text {
   text-decoration: none;
   color: var(--textDark);
+}
+
+.save-flashcard-btn {
+  margin-right: 10px;
 }
