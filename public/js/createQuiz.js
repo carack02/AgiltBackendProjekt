@@ -8,10 +8,10 @@ import {
   clearInputs,
   getQuiz,
   setCollectionInfo,
-  setErrorInfo,
-  setSuccessMessage,
+  setQuizInfo,
   deleteQuizcards,
   updateQuiz,
+  updateCollection,
 } from './helperFunctions.js';
 
 const pageState = {
@@ -37,7 +37,6 @@ const collectionQuizzes = document.querySelector('.cardSelect');
 const createCollectionButton = document.querySelector(
   '.create-collection-button',
 );
-
 const collectionsSelect = document.querySelector('#Select-Collection');
 const selectedCollection = document.querySelector('.selected-collection-text');
 const inputSection = document.querySelector('.input-section');
@@ -48,21 +47,9 @@ const correctAnswer = document.querySelector('#correctAnswer');
 const option1 = document.querySelector('.optionone');
 const option2 = document.querySelector('.optiontwo');
 const option3 = document.querySelector('.optionthree');
-const errorOut = document.querySelector('.errorOut');
 const addButton = document.querySelector('.addButton');
 const deleteButton = document.querySelector('.deleteButton');
 
-let inputValues = {
-  collectionId: null,
-  collectionName: localStorage.getItem('collectionNameTextbox') || '',
-  sharedCollection: false,
-  quizQuestion: '',
-  quizCorrectAnswer: '',
-  quizAnswer1: '',
-  quizAnswer2: '',
-  quizAnswer3: '',
-  categoryId: null,
-};
 let collectionCards;
 let selectedCollectionName;
 let collections;
@@ -70,30 +57,94 @@ let user = 1;
 let submitType = 'add';
 let selectedQuizId;
 
+let inputValues = {
+  collectionId: null,
+  collectionName: localStorage.getItem('collectionNameTextbox') || '',
+  collectionType: 'quiz',
+  sharedCollection: false,
+  collectionCategory: pageState.selectedCategory || '3',
+  quizQuestion: '',
+  quizCorrectAnswer: '',
+  quizAnswer1: '',
+  quizAnswer2: '',
+  quizAnswer3: '',
+  categoryId: null,
+  createdBy: user,
+};
+
 updateSvg();
 collectionsOptionInit('init');
 
-shareCollection.addEventListener('change', () => {
+async function collectionsOptionInit() {
+  collectionsSelect.innerHTML = '';
+  collections = await getCollections('quiz');
+  if (collections) {
+    const option = document.createElement('option');
+    option.value = 'Välj samling';
+    option.textContent = 'Välj samling';
+    collectionsSelect.appendChild(option);
+    for (const collection of collections) {
+      const option = document.createElement('option');
+      option.value = collection.collectionId;
+
+      option.textContent = collection.collectionName;
+      option.name = collection.collectionName;
+      console.log(collection.collectionName);
+      collectionsSelect.appendChild(option);
+      selectedCollectionName = collection.collectionName;
+    }
+  }
+  console.log(collections);
+  clearQuizFields();
+}
+
+shareCollection.addEventListener('change', async () => {
   inputValues.sharedCollection = shareCollection.checked;
+
+  const response = await updateCollection(inputValues);
+  if (response.error) {
+    setCollectionInfo(response.error, 1);
+    return;
+  }
+
+  setQuizInfo('Delningsinställning uppdaterad!', 2);
+  collectionsOptionInit();
+  console.log('Shared collection:', inputValues);
   console.log(inputValues.sharedCollection);
 });
 
 createCollectionButton.addEventListener('click', async () => {
+  console.log('inputValues at submit', inputValues);
   const response = await addNewCollection({
     collectionName: inputValues.collectionName,
-    collectionType: 'quiz',
+    collectionType: inputValues.collectionType,
+    collectionCategory: inputValues.categoryId,
     sharedCollection: false,
     createdBy: user,
   });
+  if (response.error) {
+    setCollectionInfo(response.error, 1);
+    return;
+  }
+
   svgOptions.classList.remove('active');
   collectionName.value = '';
   localStorage.setItem('collectionNameTextbox', '');
   collectionsOptionInit();
-  setCollectionInfo('Ny samling skapad!');
+  setCollectionInfo('Ny samling skapad!', 2);
 });
 
 collectionsSelect.addEventListener('input', async (e) => {
-  e.preventDefault();
+  // e.preventDefault();
+  console.log('selected value', e.target.value);
+  if (e.target.value === 'Välj samling') {
+    inputSection.classList.remove('active');
+    selectedCollection.textContent = '';
+    shareCollection.checked = false;
+    inputValues.sharedCollection = false;
+    return;
+  }
+  inputValues.collectionName = e.target.selectedOptions[0].textContent;
   collectionQuizzes.innerHTML = '';
   collectionQuizzes.options[0] = new Option('Ny fråga');
   const selectedOption = e.target.selectedOptions[0];
@@ -101,28 +152,22 @@ collectionsSelect.addEventListener('input', async (e) => {
   const selectedName = selectedOption.textContent;
   localStorage.setItem('selectedCollection', e.target.selectedOptions[0]);
   localStorage.setItem('selectedCollectionName', selectedOption.textContent);
+
   appState.selectedCollection = e.target.value;
   inputValues.collectionId = e.target.value;
+  syncShareCollectionCheckbox();
   console.log(selectedValue);
   selectedCollection.textContent = selectedName;
   inputSection.classList.add('active');
-  collectionCards = await getQuizcards(e.target.value);
-  console.log(collectionCards);
+  collectionCards = await getQuizcards(inputValues);
+  // console.log(collectionCards);
   updateCardSelection();
-});
-
-collectionName.addEventListener('input', () => {
-  inputValues.collectionName = collectionName.value;
-  localStorage.setItem('collectionNameTextbox', collectionName.value);
 });
 
 cardSelect.addEventListener('input', async () => {
   const selectedOption = cardSelect.selectedOptions[0];
   const selectedValue = selectedOption.value;
-  localStorage.setItem('selectedQuestion', selectedOption.value);
-  console.log('selected: ', selectedValue);
   selectedQuizId = selectedValue;
-  console.log('you can now delete quiz with id: ', selectedQuizId);
   if (selectedValue === 'Ny fråga') {
     clearInputs();
     setAddEditButton('add');
@@ -130,17 +175,18 @@ cardSelect.addEventListener('input', async () => {
   }
   const quizData = await getQuiz(selectedValue);
   console.log('Quizdata: ', quizData);
-  question.value = quizData.quizQuestion;
-  correctAnswer.value = quizData.quizCorrectAnswer;
-  option1.value = quizData.quizAnswer1;
-  option2.value = quizData.quizAnswer2;
-  option3.value = quizData.quizAnswer3;
-  inputValues.quizQuestion = quizData.quizQuestion;
-  inputValues.quizCorrectAnswer = quizData.quizCorrectAnswer;
-  inputValues.quizAnswer1 = quizData.quizAnswer1;
-  inputValues.quizAnswer2 = quizData.quizAnswer2;
-  inputValues.quizAnswer3 = quizData.quizAnswer3;
+  question.value = inputValues.quizQuestion = quizData.quizQuestion;
+  correctAnswer.value = inputValues.quizCorrectAnswer =
+    quizData.quizCorrectAnswer;
+  option1.value = inputValues.quizAnswer1 = quizData.quizAnswer1;
+  option2.value = inputValues.quizAnswer2 = quizData.quizAnswer2;
+  option3.value = inputValues.quizAnswer3 = quizData.quizAnswer3;
   setAddEditButton('edit');
+});
+
+collectionName.addEventListener('input', () => {
+  inputValues.collectionName = collectionName.value;
+  localStorage.setItem('collectionNameTextbox', collectionName.value);
 });
 
 question.addEventListener('input', () => {
@@ -161,7 +207,7 @@ option1.addEventListener('input', () => {
 
 option2.addEventListener('input', () => {
   inputValues.quizAnswer2 = option2.value;
-  console.log(inputValues.quizAnswer2);
+  // console.log(inputValues.quizAnswer2);
 });
 
 option3.addEventListener('input', () => {
@@ -169,46 +215,30 @@ option3.addEventListener('input', () => {
   console.log(inputValues.quizAnswer3);
 });
 
-for (const key in appState.svg) {
-  const svgOption = document.createElement('button');
-  svgOption.classList.add('svgOption');
-  svgOption.value = key;
-
-  // const title = document.createElement('div');
-  // title.classList.add('svgTitle');
-  // title.textContent = key;
-  const image = document.createElement('div');
-  image.classList.add('svgImage');
-  image.innerHTML = appState.svg[key];
-  // svgOption.appendChild(title);
-  svgOption.appendChild(image);
-  svgOption.addEventListener('click', () => {
-    selectedSvg = key;
-    svgOptions.classList.toggle('active');
-    updateSvg();
-  });
-
-  svgOptions.appendChild(svgOption);
-}
-
 addButton.addEventListener('click', async () => {
+  let message = '';
   if (submitType === 'edit') {
+    console.log('inputValues at submit: ', inputValues);
     const data = await updateQuiz(inputValues, selectedQuizId);
     if (data.error) {
-      setErrorInfo('Du måste fylla i alla fält');
+      setQuizInfo('Du måste fylla i alla fält', 1);
       return;
     }
+    message = 'Quizfråga uppdaterad!';
   } else {
     const data = await addNewQuiz(inputValues);
+    console.log('input values at submit: ', inputValues);
+
     if (data.error) {
-      setErrorInfo('Du måste fylla i alla fält');
+      setQuizInfo('Du måste fylla i alla fält', 1);
       return;
     }
+    message = 'Quizfråga tillagd!';
   }
   clearQuizFields();
   setAddEditButton('add');
   selectedQuizId = null;
-  setSuccessMessage('Fråga tillagd!');
+  setQuizInfo(message, 2);
   await refreshCardSelection();
 });
 
@@ -231,7 +261,7 @@ async function refreshCardSelection() {
   if (!inputValues.collectionId) return;
   collectionQuizzes.innerHTML = '';
   collectionQuizzes.options[0] = new Option('Ny fråga');
-  collectionCards = await getQuizcards(inputValues.collectionId);
+  collectionCards = await getQuizcards(inputValues);
   console.log(collectionCards);
   updateCardSelection();
   collectionQuizzes.value = 'Ny fråga';
@@ -270,26 +300,26 @@ selectSvgButton.addEventListener('click', () => {
   svgOptions.classList.toggle('active');
 });
 
-async function collectionsOptionInit() {
-  collectionsSelect.innerHTML = '';
-  collections = await getCollections('quiz');
-  if (collections) {
-    const option = document.createElement('option');
-    option.value = 'Välj samling';
-    option.textContent = 'Välj samling';
-    collectionsSelect.appendChild(option);
-    for (const collection of collections) {
-      const option = document.createElement('option');
-      option.value = collection.collectionId;
+for (const key in appState.svg) {
+  const svgOption = document.createElement('button');
+  svgOption.classList.add('svgOption');
+  svgOption.value = key;
 
-      option.textContent = collection.collectionName;
-      option.name = collection.collectionName;
-      console.log(collection.collectionName);
-      collectionsSelect.appendChild(option);
-      selectedCollectionName = collection.collectionName;
-    }
-  }
-  console.log(collections);
+  // const title = document.createElement('div');
+  // title.classList.add('svgTitle');
+  // title.textContent = key;
+  const image = document.createElement('div');
+  image.classList.add('svgImage');
+  image.innerHTML = appState.svg[key];
+  // svgOption.appendChild(title);
+  svgOption.appendChild(image);
+  svgOption.addEventListener('click', () => {
+    selectedSvg = key;
+    svgOptions.classList.toggle('active');
+    updateSvg();
+  });
+
+  svgOptions.appendChild(svgOption);
 }
 
 function setAddEditButton(setting) {
@@ -310,4 +340,19 @@ function clearQuizFields() {
   inputValues.quizAnswer1 = '';
   inputValues.quizAnswer2 = '';
   inputValues.quizAnswer3 = '';
+  setAddEditButton('add');
+}
+function syncShareCollectionCheckbox() {
+  if (!collections || !inputValues.collectionId) {
+    shareCollection.checked = false;
+    inputValues.sharedCollection = false;
+    return;
+  }
+  const selectedId = Number(inputValues.collectionId);
+  const collection = collections.find(
+    (item) => Number(item.collectionId) === selectedId,
+  );
+  const isShared = Boolean(collection?.sharedCollection);
+  shareCollection.checked = isShared;
+  inputValues.sharedCollection = isShared;
 }

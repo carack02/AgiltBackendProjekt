@@ -9,8 +9,7 @@ const option2 = document.querySelector('.optiontwo');
 const option3 = document.querySelector('.optionthree');
 const collectionInfo = document.querySelector('.collection-out');
 setSvgs();
-const errorOut = document.querySelector('.errorOut');
-const successOut = document.querySelector('.successOut');
+const quizMessageOut = document.querySelector('.quizMessageOut');
 
 function setSvgs() {
   let svgs = {
@@ -68,85 +67,6 @@ export function findId(name) {
   );
 }
 
-export async function getCollections(type) {
-  try {
-    const res = await fetch(`http://localhost:3000/api/collectionType/${type}`);
-
-    const data = await res.json();
-    console.log(data.returnData);
-
-    return data.returnData;
-  } catch (err) {
-    console.error('failed to fetch collections', err);
-  }
-}
-
-export async function getQuizcards(id) {
-  if (!id) return;
-  try {
-    const res = await fetch(`http://localhost:3000/api/quizByCol/${id}`);
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.error('failed to fetch collection', err);
-  }
-}
-
-export async function addNewQuiz(inputValues) {
-  try {
-    const response = await fetch('http://localhost:3000/api/quiz', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json ' },
-      body: JSON.stringify({
-        collectionId: inputValues.collectionId,
-        quizQuestion: inputValues.quizQuestion,
-        quizCorrectAnswer: inputValues.quizCorrectAnswer,
-        quizAnswer1: inputValues.quizAnswer1,
-        quizAnswer2: inputValues.quizAnswer2,
-        quizAnswer3: inputValues.quizAnswer3,
-        categoryId: inputValues.categoryId,
-      }),
-    });
-    if (response) {
-      const data = await response.json();
-      return data;
-    }
-  } catch (err) {
-    console.error('gick fel på något vis', err);
-  }
-}
-
-export async function addNewCollection(data) {
-  try {
-    const response = await fetch('http://localhost:3000/api/collections', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json ' },
-      body: JSON.stringify({
-        collectionName: data.collectionName,
-        collectionType: 'quiz',
-        collectionCategory: 1,
-        sharedCollection: data.sharedCollection,
-        createdBy: data.createdBy,
-      }),
-    });
-    if (response) {
-      return response;
-    }
-  } catch {
-    console.log('gick fel på något vis');
-  }
-}
-
-export async function getQuiz(id) {
-  try {
-    const res = await fetch(`http://localhost:3000/api/quiz/${id}`);
-    const data = await res.json();
-    return data;
-  } catch (err) {
-    console.error('failed to fetch quiz', err);
-  }
-}
-
 export function clearInputs() {
   question.value = '';
   correctAnswer.value = '';
@@ -160,24 +80,33 @@ export function clearInputs() {
   localStorage.setItem('answerOption3', '');
 }
 
-export function setCollectionInfo(message) {
+export function setCollectionInfo(message, type) {
   collectionInfo.textContent = message;
+  if (type === 1) {
+    collectionInfo.classList.add('error-message');
+  } else if (type === 2) {
+    collectionInfo.classList.add('info-message');
+    collectionInfo.classList.remove('error-message');
+  }
   setTimeout(() => {
     collectionInfo.textContent = '';
+    collectionInfo.classList.remove('error-message');
+    collectionInfo.classList.remove('info-message');
   }, 4000);
 }
 
-export function setErrorInfo(message) {
-  errorOut.textContent = message;
+export function setQuizInfo(message, type) {
+  quizMessageOut.textContent = message;
+  if (type === 1) {
+    quizMessageOut.classList.add('error-message');
+  } else if (type === 2) {
+    quizMessageOut.classList.add('info-message');
+    quizMessageOut.classList.remove('error-message');
+  }
   setTimeout(() => {
-    errorOut.textContent = '';
-  }, 4000);
-}
-
-export function setSuccessMessage(message) {
-  successOut.textContent = message;
-  setTimeout(() => {
-    successOut.textContent = '';
+    quizMessageOut.textContent = '';
+    quizMessageOut.classList.remove('error-message');
+    quizMessageOut.classList.remove('info-message');
   }, 4000);
 }
 
@@ -205,6 +134,29 @@ export async function updateQuiz(inputValues, id) {
         quizAnswer1: inputValues.quizAnswer1,
         quizAnswer2: inputValues.quizAnswer2,
         quizAnswer3: inputValues.quizAnswer3,
+      }),
+    });
+    if (response) {
+      const data = await response.json();
+      return data;
+    }
+  } catch (err) {
+    console.error('gick fel på något vis', err);
+  }
+}
+
+export async function addNewQuiz(inputValues) {
+  try {
+    const response = await fetch('http://localhost:3000/api/quiz', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json ' },
+      body: JSON.stringify({
+        collectionId: inputValues.collectionId,
+        quizQuestion: inputValues.quizQuestion,
+        quizCorrectAnswer: inputValues.quizCorrectAnswer,
+        quizAnswer1: inputValues.quizAnswer1,
+        quizAnswer2: inputValues.quizAnswer2,
+        quizAnswer3: inputValues.quizAnswer3,
         categoryId: inputValues.categoryId,
       }),
     });
@@ -215,4 +167,88 @@ export async function updateQuiz(inputValues, id) {
   } catch (err) {
     console.error('gick fel på något vis', err);
   }
+}
+
+export async function getCollections(type) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/collectionType/${type}`);
+
+    const data = await res.json();
+    console.log(data.returnData);
+
+    return data.returnData;
+  } catch (err) {
+    console.error('failed to fetch collections', err);
+  }
+}
+
+export async function getQuizcards(data) {
+  console.log('data in get quizcards: ', data);
+  if (!data.collectionId) return;
+  try {
+    const response = await fetch(
+      `http://localhost:3000/api/quizByCol/${data.collectionId}`,
+    );
+    const res = await response.json();
+    return res;
+  } catch (err) {
+    console.error('failed to fetch collection', err);
+  }
+}
+
+export async function addNewCollection(data) {
+  try {
+    const response = await fetch('http://localhost:3000/api/collections', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json ' },
+      body: JSON.stringify({
+        collectionName: data.collectionName,
+        collectionType: data.collectionType,
+        categoryId: data.collectionCategory,
+        sharedCollection: data.sharedCollection,
+        createdBy: data.createdBy,
+      }),
+    });
+    if (response) {
+      return response;
+    }
+  } catch (err) {
+    console.log('gick fel på något vis', err);
+  }
+}
+
+export async function getQuiz(id) {
+  try {
+    const res = await fetch(`http://localhost:3000/api/quiz/${id}`);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error('failed to fetch quiz', err);
+  }
+}
+
+export async function updateCollection(data) {
+  let response;
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/collections/${data.collectionId}`,
+      {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json ' },
+        body: JSON.stringify({
+          collectionName: data.collectionName,
+          collectionType: data.collectionType,
+          categoryId: data.categoryId,
+          sharedCollection: data.sharedCollection,
+          createdBy: data.createdBy,
+        }),
+      },
+    );
+    if (res) {
+      response = await res.json();
+    }
+  } catch (err) {
+    console.error('gick fel på något vis', err);
+  }
+  return response;
 }

@@ -7,7 +7,6 @@ import type { RowDataPacket } from 'mysql2';
 
 interface Quiz extends RowDataPacket {
   quizId: number;
-  collectionId: number;
   quizQuestion: string;
   quizCorrectAnswer: string;
   quizAnswer1: string;
@@ -23,36 +22,33 @@ export async function getQuizzes(_req: Request, res: Response) {
 
 export async function createQuiz(req: Request, res: Response) {
   const {
-    collectionId,
     quizQuestion,
     quizCorrectAnswer,
     quizAnswer1,
     quizAnswer2,
     quizAnswer3,
-    categoryId,
+    collectionId,
   } = req.body;
 
   if (
-    !collectionId ||
     !quizQuestion ||
     !quizCorrectAnswer ||
     !quizAnswer1 ||
     !quizAnswer2 ||
     !quizAnswer3 ||
-    !categoryId
+    !collectionId
   ) {
     return res.status(400).json({ error: 'All fields are required' });
   }
   try {
     const [results] = await db.query<ResultSetHeader>(
-      'INSERT INTO quiz (quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, quizAnswer3, categoryId, collectionId) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO quiz (quizQuestion, quizCorrectAnswer, quizAnswer1, quizAnswer2, quizAnswer3, collectionId) VALUES (?, ?, ?, ?, ?, ?)',
       [
         quizQuestion,
         quizCorrectAnswer,
         quizAnswer1,
         quizAnswer2,
         quizAnswer3,
-        categoryId,
         collectionId,
       ],
     );
@@ -61,7 +57,7 @@ export async function createQuiz(req: Request, res: Response) {
     }
   } catch (err) {
     console.error('Error creating quiz:', err);
-    return res.status(500).json({ error: 'Failed to create quiz' });
+    return res.status(500).json({ error: 'Failed to create quiz', err });
   }
   res.status(201).json({ message: 'Quiz created successfully' });
 }
@@ -110,7 +106,6 @@ export async function updateQuiz(req: Request, res: Response) {
     quizAnswer1,
     quizAnswer2,
     quizAnswer3,
-    categoryId,
   } = req.body;
 
   if (
@@ -118,22 +113,20 @@ export async function updateQuiz(req: Request, res: Response) {
     !quizCorrectAnswer ||
     !quizAnswer1 ||
     !quizAnswer2 ||
-    !quizAnswer3 ||
-    !categoryId
+    !quizAnswer3
   ) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 
   try {
     const [results] = await db.query<ResultSetHeader>(
-      'UPDATE quiz SET quizQuestion = ?, quizCorrectAnswer = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ?, categoryId = ? WHERE quizId = ?',
+      'UPDATE quiz SET quizQuestion = ?, quizCorrectAnswer = ?, quizAnswer1 = ?, quizAnswer2 = ?, quizAnswer3 = ? WHERE quizId = ?',
       [
         quizQuestion,
         quizCorrectAnswer,
         quizAnswer1,
         quizAnswer2,
         quizAnswer3,
-        categoryId,
         id,
       ],
     );
@@ -145,7 +138,7 @@ export async function updateQuiz(req: Request, res: Response) {
     res.json({ message: 'Quiz updated successfully' });
   } catch (err) {
     console.error('Error updating quiz:', err);
-    return res.status(500).json({ error: 'Failed to update quiz' });
+    return res.status(500).json({ error: 'Failed to update quiz', err });
   }
 }
 
