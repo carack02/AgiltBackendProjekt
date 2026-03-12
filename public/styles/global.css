@@ -85,8 +85,9 @@ h3,
 h4 {
   font-weight: 600;
   line-height: 1.2;
-  text-align: center;
-  margin: 1px auto;
+  text-align: left;
+  margin-top: 30px;
+  width: 100%;
   color: var(--textDark);
 }
 
@@ -198,6 +199,7 @@ p {
   font-size: 0.8rem;
   font-weight: 100;
   letter-spacing: 0.5px;
+  outline: none;
   border: none;
   border-radius: var(--radius);
   background-color: #fff;
@@ -233,7 +235,7 @@ a.button {
   align-items: center;
   justify-content: center;
   padding: 15px;
-  margin: 10px 0 0 3px;
+  margin: 10px 0 0 2px;
   width: 98%;
   height: 60px;
   color: var(--textLight);
