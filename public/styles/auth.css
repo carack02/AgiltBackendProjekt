@@ -16,11 +16,6 @@
   margin: 10px 0;
 }
 
-.input-div img {
-  width: 20px;
-  cursor: pointer;
-}
-
 .error-message {
   color: rgb(182, 25, 25);
   font-size: 14px;

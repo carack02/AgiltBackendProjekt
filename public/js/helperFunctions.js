@@ -11,6 +11,16 @@ const collectionInfo = document.querySelector('.collection-out');
 setSvgs();
 const quizMessageOut = document.querySelector('.quizMessageOut');
 
+export function togglePassword(togglePassword, eyeIcon) {
+  if (togglePassword.type === 'password') {
+    togglePassword.type = 'text';
+    eyeIcon.src = './img/eye-open.svg';
+  } else {
+    togglePassword.type = 'password';
+    eyeIcon.src = './img/eye-closed.svg';
+  }
+}
+
 function setSvgs() {
   let svgs = {
     history: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">

@@ -1,13 +1,17 @@
+import { togglePassword } from './helperFunctions.js';
+
 const RegisterForm = document.querySelector('#registerForm');
 const loginForm = document.querySelector('#loginForm');
 // const createAccountBtn = document.querySelector('#create-account-btn');
 const inputUsername = document.querySelector('#username');
 const inputEmail = document.querySelector('#email');
-const inputPassword = document.querySelector('#password1');
+const inputPassword = document.querySelector('#password');
 const inputPassword2 = document.querySelector('#password2');
 const errorMessage = document.querySelector('.error-message');
-const eyeIcon = document.querySelector('.eye-icon');
-const togglePassword = document.querySelector('.toggle-password');
+const eyeIcon1 = document.querySelector('.eye-icon1');
+const eyeIcon2 = document.querySelector('.eye-icon2');
+const togglePassword1 = document.querySelector('.toggle-password1');
+const togglePassword2 = document.querySelector('.toggle-password2');
 
 const url = window.location.pathname.split('/').pop();
 console.log('Current page:', url);
@@ -19,16 +23,15 @@ if (url === 'createAccount.html') {
   page = 2;
 }
 
-function togglePasswordIcon() {
-  if (togglePassword.type === 'password') {
-    togglePassword.type = 'text';
-    eyeIcon.src = './img/eye-open.svg';
-  } else {
-    togglePassword.type = 'password';
-    eyeIcon.src = './img/eye-closed.svg';
-  }
+eyeIcon1.addEventListener('click', function () {
+  togglePassword(togglePassword1, eyeIcon1);
+});
+
+if (page === 1) {
+  eyeIcon2.addEventListener('click', function () {
+    togglePassword(togglePassword2, eyeIcon2);
+  });
 }
-eyeIcon.addEventListener('click', togglePasswordIcon);
 
 async function createUser(event) {
   event.preventDefault();
@@ -109,6 +112,7 @@ async function createUser(event) {
 if (page === 1) {
   RegisterForm.addEventListener('submit', createUser);
 }
+
 async function loginUser(event) {
   event.preventDefault();
   let username = inputUsername.value.trim().toLowerCase();
