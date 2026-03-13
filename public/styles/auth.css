@@ -4,6 +4,8 @@
   --background: #f8f8f8;
   --textLight: #f8f8f8;
   --textDark: #0d2944;
+  --warn: rgb(182, 25, 25);
+  --info: rgb(0, 54, 0);
   --radius: 8px;
 }
 

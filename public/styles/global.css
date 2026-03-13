@@ -36,6 +36,8 @@
   --background: #f8f8f8;
   --textLight: #f8f8f8;
   --textDark: #0d2944;
+  --warn: rgb(182, 25, 25);
+  --info: rgb(0, 54, 0);
   --radius: 8px;
 }
 
@@ -78,21 +80,25 @@ h2 {
   line-height: 1.2;
   text-align: center;
   margin: 30px auto;
+  font-size: 1.5rem;
   color: var(--textDark);
 }
 
 h3,
 h4 {
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.2;
   text-align: left;
   margin-top: 30px;
   width: 100%;
+  font-size: 1.1rem;
   color: var(--textDark);
 }
 
 p {
   color: var(--textDark);
+  font-weight: 300;
+  text-align: left;
 }
 
 .container {
@@ -150,6 +156,7 @@ p {
   display: block;
   margin-top: 10px;
   font-weight: 500;
+  font-size: 1.1rem;
 }
 
 .select {
@@ -258,13 +265,13 @@ a.button {
 }
 
 .error-message {
-  color: rgb(182, 25, 25);
+  color: var(--warn);
   font-size: 14px;
   font-weight: 300;
 }
 
 .info-message {
-  color: rgb(0, 54, 0);
+  color: var(--info);
   font-size: 14px;
   font-weight: 300;
 }
