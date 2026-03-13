@@ -5,7 +5,7 @@ const loginForm = document.querySelector('#loginForm');
 // const createAccountBtn = document.querySelector('#create-account-btn');
 const inputUsername = document.querySelector('#username');
 const inputEmail = document.querySelector('#email');
-const inputPassword = document.querySelector('#password');
+const inputPassword1 = document.querySelector('#password1');
 const inputPassword2 = document.querySelector('#password2');
 const errorMessage = document.querySelector('.error-message');
 const eyeIcon1 = document.querySelector('.eye-icon1');
@@ -37,8 +37,9 @@ async function createUser(event) {
   event.preventDefault();
   let username = inputUsername.value.trim().toLowerCase();
   let userEmail = inputEmail.value.trim().toLowerCase();
-  let userPassword = inputPassword.value.trim();
+  let userPassword1 = inputPassword1.value.trim();
   let userPassword2 = inputPassword2.value.trim();
+  let userPassword = userPassword1;
 
   if (username.length < 2) {
     errorMessage.textContent = 'Användarnamnet måste vara minst 2 karaktärer';
@@ -66,30 +67,30 @@ async function createUser(event) {
     return;
   }
 
-  if (!/[a-zåäö]/.test(userPassword)) {
+  if (!/[a-zåäö]/.test(userPassword1 || userPassword2)) {
     errorMessage.textContent =
       'Lösenordet måste innehålla minst 1 liten bokstav';
     return;
   }
 
-  if (!/[A-ÖÅÄÖ]/.test(userPassword)) {
+  if (!/[A-ÖÅÄÖ]/.test(userPassword1 || userPassword2)) {
     errorMessage.textContent =
       'Lösenordet måste innehålla minst 1 stor bokstav';
     return;
   }
 
-  if (!/[0-9]/.test(userPassword)) {
+  if (!/[0-9]/.test(userPassword1 || userPassword2)) {
     errorMessage.textContent = 'Lösenordet måste innehålla minst 1 siffra';
     return;
   }
 
-  if (!/[^A-Za-z0-9ÅÄÖåäö]/.test(userPassword)) {
+  if (!/[^A-Za-z0-9ÅÄÖåäö]/.test(userPassword1 || userPassword2)) {
     errorMessage.textContent =
       'Lösenordet måste innehålla minst 1 specialtecken';
     return;
   }
 
-  if (userPassword !== userPassword2) {
+  if (userPassword1 !== userPassword2) {
     errorMessage.textContent = 'Lösenorden matchar inte';
     return;
   }
@@ -116,7 +117,7 @@ if (page === 1) {
 async function loginUser(event) {
   event.preventDefault();
   let username = inputUsername.value.trim().toLowerCase();
-  let userPassword = inputPassword.value.trim();
+  let userPassword = inputPassword1.value.trim();
 
   try {
     const res = await fetch('http://localhost:3000/api/login', {
