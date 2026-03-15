@@ -27,7 +27,7 @@ const pageState = {
   answerOption3: localStorage.getItem('answerOption3'),
 };
 
-let selectedSvg = pageState.selectedCategory || 'geography';
+let selectedSvg = pageState.selectedCategory || 1;
 
 const svgOptions = document.querySelector('.svgOptions');
 const selectSvgButton = document.querySelector('.svg-select-button');
@@ -62,7 +62,7 @@ let inputValues = {
   collectionName: localStorage.getItem('collectionNameTextbox') || '',
   collectionType: 'quiz',
   sharedCollection: false,
-  collectionCategory: pageState.selectedCategory || '3',
+  collectionCategory: pageState.selectedCategory || 3,
   quizQuestion: '',
   quizCorrectAnswer: '',
   quizAnswer1: '',

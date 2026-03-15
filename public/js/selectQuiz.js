@@ -1,26 +1,43 @@
-import { getCollections } from './helperFunctions.js';
+import { getCollections, appState } from './helperFunctions.js';
 
+const categories = {
+  1: 'History',
+  2: 'Mathematics',
+  3: 'Geography',
+  4: 'Psychology',
+  5: 'Biology',
+  6: 'Chemistry',
+  7: 'UXD',
+  8: 'Physics',
+};
+
+const quizContainer = document.getElementById('quizContainer');
+let collections;
 collectionsOptionInit();
+console.log(appState);
 
 async function collectionsOptionInit() {
-  collectionsSelect.innerHTML = '';
+  quizContainer.innerHTML = '';
   collections = await getCollections('quiz');
+  console.log(collections);
   if (collections) {
-    const option = document.createElement('option');
-    option.value = 'Välj samling';
-    option.textContent = 'Välj samling';
-    collectionsSelect.appendChild(option);
     for (const collection of collections) {
-      const option = document.createElement('option');
-      option.value = collection.collectionId;
-
-      option.textContent = collection.collectionName;
-      option.name = collection.collectionName;
-      console.log(collection.collectionName);
-      collectionsSelect.appendChild(option);
-      selectedCollectionName = collection.collectionName;
+      const key = categories[collection.categoryId].toLowerCase();
+      const svg = appState.svg[key];
+      console.log(collection);
+      const collectionButton = document.createElement('input');
+      collectionButton.type = 'button';
+      collectionButton.value = collection.collectionName;
+      collectionButton.href = '/solveQuiz.html';
+      const a = document.createElement('a');
+      a.href = `/AgiltBackendProjekt/public/solveQuiz.html?id=${collection.collectionId}`;
+      const svgIcon = document.createElement('div');
+      svgIcon.classList.add('svgIcon');
+      svgIcon.innerHTML = svg;
+      collectionButton.appendChild(svgIcon);
+      a.appendChild(collectionButton);
+      quizContainer.appendChild(a);
     }
   }
   console.log(collections);
-  clearQuizFields();
 }
