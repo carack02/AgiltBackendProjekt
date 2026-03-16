@@ -35,11 +35,11 @@ if (page === 1) {
 
 async function createUser(event) {
   event.preventDefault();
-  let username = inputUsername.value.trim().toLowerCase();
-  let userEmail = inputEmail.value.trim().toLowerCase();
-  let userPassword1 = inputPassword1.value.trim();
-  let userPassword2 = inputPassword2.value.trim();
-  let userPassword = userPassword1;
+  const username = inputUsername.value.trim().toLowerCase();
+  const userEmail = inputEmail.value.trim().toLowerCase();
+  const userPassword1 = inputPassword1.value.trim();
+  const userPassword2 = inputPassword2.value.trim();
+  const userPassword = userPassword1;
 
   if (username.length < 2) {
     errorMessage.textContent = 'Användarnamnet måste vara minst 2 karaktärer';
@@ -116,8 +116,8 @@ if (page === 1) {
 
 async function loginUser(event) {
   event.preventDefault();
-  let username = inputUsername.value.trim().toLowerCase();
-  let userPassword = inputPassword1.value.trim();
+  const username = inputUsername.value.trim().toLowerCase();
+  const userPassword = inputPassword1.value.trim();
 
   try {
     const res = await fetch('http://localhost:3000/api/login', {
@@ -134,6 +134,7 @@ async function loginUser(event) {
       return;
     }
     localStorage.setItem('username', JSON.stringify(username));
+    localStorage.setItem('userId', JSON.stringify(data.userId));
     window.location.href = 'index.html';
   } catch (err) {
     console.error('Error logging in user', err);

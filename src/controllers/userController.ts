@@ -21,7 +21,7 @@ export const getUsers = async (_req: Request, res: Response) => {
 export const getUserById = async (
   req: Request<
     { id: ObjectId },
-    { message: string; success: boolean; error: string },
+    { success: boolean; error: string },
     void,
     void
   >,
@@ -47,7 +47,7 @@ export const getUserById = async (
 export const createUser = async (
   req: Request<
     void,
-    { message: string; success: boolean; error: string },
+    { message?: string; success: boolean; error?: string },
     { username: string; userEmail: string; userPassword: string },
     void
   >,
@@ -76,7 +76,7 @@ export const createUser = async (
 export const loginUser = async (
   req: Request<
     void,
-    { message: string; success: boolean; error: string },
+    { userId?: string; message?: string; success: boolean; error?: string },
     { username: string; userPassword: string },
     void
   >,
@@ -89,6 +89,7 @@ export const loginUser = async (
       .findOne({
         username: username,
       });
+    console.log('user', user);
     console.log('username', username);
     console.log('Password from user', userPassword);
     if (!user) {
@@ -100,21 +101,23 @@ export const loginUser = async (
       res.status(401).json({ error: 'Wrong password', success: false });
       return;
     }
+    res.status(200).json({
+      userId: user._id,
+      message: 'User logged in successfully',
+      success: true,
+    });
   } catch (err) {
     console.error('Error logging in user:', err);
     return res
       .status(500)
       .json({ error: 'Failed to login user', success: false });
   }
-  res
-    .status(200)
-    .json({ message: 'User logged in successfully', success: true });
 };
 
 export const updateUser = async (
   req: Request<
     { id: ObjectId },
-    { message: string; success: boolean; error: string },
+    { success?: boolean; error?: string },
     {
       username: string;
       userEmail: string;
@@ -154,7 +157,7 @@ export const updateUser = async (
 export const deleteUser = async (
   req: Request<
     { id: ObjectId },
-    { message: string; success: boolean; error: string },
+    { success: boolean; error?: string },
     {
       username: string;
       userEmail: string;
