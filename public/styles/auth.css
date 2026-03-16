@@ -24,6 +24,14 @@
   font-weight: 300;
 }
 
+.checkbox {
+  margin: 10px 0;
+}
+
+.small-label {
+  font-size: 0.9rem;
+}
+
 @media screen and (min-width: 600px) {
   .input-div {
     min-width: 400px;

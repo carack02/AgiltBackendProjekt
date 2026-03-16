@@ -2,7 +2,8 @@ import { togglePassword } from './helperFunctions.js';
 
 const RegisterForm = document.querySelector('#registerForm');
 const loginForm = document.querySelector('#loginForm');
-// const createAccountBtn = document.querySelector('#create-account-btn');
+const createAccountBtn = document.querySelector('.create-account-btn');
+createAccountBtn.disabled = true;
 const inputUsername = document.querySelector('#username');
 const inputEmail = document.querySelector('#email');
 const inputPassword1 = document.querySelector('#password1');
@@ -12,6 +13,7 @@ const eyeIcon1 = document.querySelector('.eye-icon1');
 const eyeIcon2 = document.querySelector('.eye-icon2');
 const togglePassword1 = document.querySelector('.toggle-password1');
 const togglePassword2 = document.querySelector('.toggle-password2');
+const privacyPolicy = document.querySelector('#privacy-policy');
 
 const url = window.location.pathname.split('/').pop();
 console.log('Current page:', url);
@@ -143,3 +145,12 @@ async function loginUser(event) {
 if (page === 2) {
   loginForm.addEventListener('submit', loginUser);
 }
+
+function enableCreateAccountBtn() {
+  if (privacyPolicy.checked) {
+    createAccountBtn.disabled = false;
+  } else {
+    createAccountBtn.disabled = true;
+  }
+}
+privacyPolicy.addEventListener('change', enableCreateAccountBtn);
