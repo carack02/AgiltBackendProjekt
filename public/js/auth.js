@@ -73,7 +73,7 @@ async function createUser(event) {
     return;
   }
 
-  if (!/[A-ÖÅÄÖ]/.test(userPassword1 || userPassword2)) {
+  if (!/[A-ZÅÄÖ]/.test(userPassword1 || userPassword2)) {
     errorMessage.textContent =
       'Lösenordet måste innehålla minst 1 stor bokstav';
     return;

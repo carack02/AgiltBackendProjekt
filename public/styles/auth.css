@@ -9,7 +9,8 @@
   --radius: 8px;
 }
 
-#create-accout {
+#create-accout,
+#guest {
   margin-left: 5px;
   color: #187692;
 }
