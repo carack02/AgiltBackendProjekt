@@ -42,6 +42,7 @@ header {
 #h1-header {
   color: var(--textLight);
   margin-left: 50px;
+  font-size: 2rem;
 }
 
 .hamburger-menu {
