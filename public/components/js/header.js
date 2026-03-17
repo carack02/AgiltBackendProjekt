@@ -9,6 +9,7 @@ export function initHeader() {
   const body = document.querySelector('body');
   const loggedInMenu = document.querySelector('.loggedin-menu');
   const loggedOutMenu = document.querySelector('.loggedout-menu');
+  const logout = document.querySelector('#logout');
 
   // Test login header
 
@@ -63,4 +64,10 @@ export function initHeader() {
       buttonbar3.classList.remove('rotate2');
     }
   }
+
+  function logoutUser() {
+    localStorage.setItem('username', JSON.stringify(''));
+    localStorage.setItem('userId', JSON.stringify(''));
+  }
+  logout.addEventListener('click', logoutUser);
 }
