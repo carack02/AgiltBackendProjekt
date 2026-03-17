@@ -1,14 +1,12 @@
 import { togglePassword } from './helperFunctions.js';
 
-// const updateForm = document.querySelector('#updateForm');
-// const inputUsername = document.querySelector('#username');
+const updateForm = document.querySelector('#updateForm');
+const inputUsername = document.querySelector('#username');
 const deleteButton = document.querySelector('#delete-button');
 // deleteButton.disabled = true;
-// const inputEmail = document.querySelector('#email');
-// const inputPassword0 = document.querySelector('#password0');
-// const inputPassword1 = document.querySelector('#password1');
-// const inputPassword2 = document.querySelector('#password2');
-// const errorMessage = document.querySelector('.error-message');
+const inputEmail = document.querySelector('#email');
+const inputPassword1 = document.querySelector('#password1');
+const errorMessage = document.querySelector('.error-message');
 const eyeIcon0 = document.querySelector('.eye-icon0');
 const eyeIcon1 = document.querySelector('.eye-icon1');
 const eyeIcon2 = document.querySelector('.eye-icon2');
@@ -27,6 +25,48 @@ eyeIcon1.addEventListener('click', function () {
 eyeIcon2.addEventListener('click', function () {
   togglePassword(togglePassword2, eyeIcon2);
 });
+
+async function updateUser(event) {
+  event.preventDefault();
+  const username = inputUsername.value.trim().toLowerCase();
+  const userEmail = inputEmail.value.trim().toLowerCase();
+  const userPassword1 = inputPassword1.value.trim();
+  const userPassword = userPassword1;
+  const userId = JSON.parse(localStorage.getItem('userId'));
+
+  const user = {};
+  console.log('user', user);
+
+  if (username) {
+    user.username = username;
+  }
+  if (userEmail) {
+    user.userEmail = userEmail;
+  }
+  if (userPassword) {
+    user.userPassword = userPassword;
+  }
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/user/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await res.json();
+    console.log('data', data);
+    if (!res.ok && res.status === 401) {
+      errorMessage.textContent = 'Något gick fel';
+      return;
+    }
+    localStorage.setItem('username', JSON.stringify(username));
+  } catch (err) {
+    console.error('Error updating user', err);
+  }
+}
+updateForm.addEventListener('submit', updateUser);
 
 async function deleteUser() {
   const userId = JSON.parse(localStorage.getItem('userId'));
