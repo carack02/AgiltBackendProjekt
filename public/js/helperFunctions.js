@@ -184,7 +184,7 @@ export async function getCollections(type) {
     const res = await fetch(`http://localhost:3000/api/collectionType/${type}`);
 
     const data = await res.json();
-    console.log(data.returnData);
+    console.log('returnData', data.returnData);
 
     return data.returnData;
   } catch (err) {
