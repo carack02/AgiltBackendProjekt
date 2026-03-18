@@ -1,0 +1,67 @@
+#resultCelebration {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  height: 500px;
+}
+#resultCelebration img {
+  width: 100%;
+  height: auto;
+}
+#resultCelebration div {
+  display: flex;
+  justify-content: center;
+  font-size: x-large;
+  font-weight: 600;
+  width: 100%;
+  height: auto;
+}
+
+.answer.correct {
+  border-radius: 10px;
+  padding: 4px;
+  background-color: rgba(0, 128, 0, 0.5);
+}
+.answer.wrong {
+  border-radius: 10px;
+  padding: 4px;
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.revealAnswerButton {
+  opacity: 100%;
+  transition: opacity 1s ease;
+}
+
+.revealAnswerButton.hidden {
+  display: none;
+  opacity: 0;
+}
+
+.correctElement.hidden {
+  display: none;
+}
+
+.correctAnswerText.hidden {
+  display: none;
+}
+
+.questionBox {
+}
+.question {
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px black solid;
+}
+
+.revealAnswerButton {
+  padding: 4px;
+  border-radius: 10px;
+  margin: 6px 0px;
+  font-size: large;
+}
+.correctAnswerText {
+  padding: 4px;
+  border-radius: 10px;
+  margin: 6px 0px;
+}
