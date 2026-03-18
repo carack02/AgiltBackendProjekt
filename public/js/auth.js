@@ -1,4 +1,4 @@
-import { togglePassword } from './helperFunctions.js';
+import { togglePassword, validateUserInput } from './helperFunctions.js';
 
 const RegisterForm = document.querySelector('#registerForm');
 const loginForm = document.querySelector('#loginForm');
@@ -41,59 +41,13 @@ async function createUser(event) {
   const userPassword2 = inputPassword2.value.trim();
   const userPassword = userPassword1;
 
-  if (username.length < 2) {
-    errorMessage.textContent = 'Användarnamnet måste vara minst 2 karaktärer';
-    return;
-  }
-
-  if (username.length > 20) {
-    errorMessage.textContent =
-      'Användarnamnet får inte vara mer än 20 karaktärer';
-    return;
-  }
-
-  if (!userEmail.includes('.')) {
-    errorMessage.textContent = 'Email behöver innehålla .';
-    return;
-  }
-
-  if (!userEmail.includes('@')) {
-    errorMessage.textContent = 'Email behöver innehålla @';
-    return;
-  }
-
-  if (userPassword.length < 10) {
-    errorMessage.textContent = 'Lösenordet måste vara minst 10 karaktärer';
-    return;
-  }
-
-  if (!/[a-zåäö]/.test(userPassword1 || userPassword2)) {
-    errorMessage.textContent =
-      'Lösenordet måste innehålla minst 1 liten bokstav';
-    return;
-  }
-
-  if (!/[A-ZÅÄÖ]/.test(userPassword1 || userPassword2)) {
-    errorMessage.textContent =
-      'Lösenordet måste innehålla minst 1 stor bokstav';
-    return;
-  }
-
-  if (!/[0-9]/.test(userPassword1 || userPassword2)) {
-    errorMessage.textContent = 'Lösenordet måste innehålla minst 1 siffra';
-    return;
-  }
-
-  if (!/[^A-Za-z0-9ÅÄÖåäö]/.test(userPassword1 || userPassword2)) {
-    errorMessage.textContent =
-      'Lösenordet måste innehålla minst 1 specialtecken';
-    return;
-  }
-
-  if (userPassword1 !== userPassword2) {
-    errorMessage.textContent = 'Lösenorden matchar inte';
-    return;
-  }
+  validateUserInput(
+    username,
+    userEmail,
+    userPassword,
+    userPassword2,
+    errorMessage,
+  );
 
   try {
     const res = await fetch('http://localhost:3000/api/register', {

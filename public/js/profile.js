@@ -1,11 +1,13 @@
-import { togglePassword } from './helperFunctions.js';
+import { togglePassword, validateUserInput } from './helperFunctions.js';
 
 const updateForm = document.querySelector('#updateForm');
 const inputUsername = document.querySelector('#username');
 const deleteButton = document.querySelector('#delete-button');
 // deleteButton.disabled = true;
 const inputEmail = document.querySelector('#email');
+const inputCurrentPassword = document.querySelector('#current-password');
 const inputPassword1 = document.querySelector('#password1');
+const inputPassword2 = document.querySelector('#password2');
 const errorMessage = document.querySelector('.error-message');
 const eyeIcon0 = document.querySelector('.eye-icon0');
 const eyeIcon1 = document.querySelector('.eye-icon1');
@@ -30,9 +32,20 @@ async function updateUser(event) {
   event.preventDefault();
   const username = inputUsername.value.trim().toLowerCase();
   const userEmail = inputEmail.value.trim().toLowerCase();
+  const currentPassword = inputCurrentPassword.value.trim();
   const userPassword1 = inputPassword1.value.trim();
+  const userPassword2 = inputPassword2.value.trim();
   const userPassword = userPassword1;
   const userId = JSON.parse(localStorage.getItem('userId'));
+
+  validateUserInput(
+    username,
+    userEmail,
+    currentPassword,
+    userPassword,
+    userPassword2,
+    errorMessage,
+  );
 
   const user = {};
   console.log('user', user);
@@ -40,9 +53,11 @@ async function updateUser(event) {
   if (username) {
     user.username = username;
   }
+
   if (userEmail) {
     user.userEmail = userEmail;
   }
+
   if (userPassword) {
     user.userPassword = userPassword;
   }
@@ -61,7 +76,9 @@ async function updateUser(event) {
       errorMessage.textContent = 'Något gick fel';
       return;
     }
-    localStorage.setItem('username', JSON.stringify(username));
+    if (username) {
+      localStorage.setItem('username', JSON.stringify(username));
+    }
   } catch (err) {
     console.error('Error updating user', err);
   }
