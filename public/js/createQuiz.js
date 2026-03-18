@@ -27,7 +27,7 @@ const pageState = {
   answerOption3: localStorage.getItem('answerOption3'),
 };
 
-let selectedSvg = pageState.selectedCategory || 'geography';
+let selectedSvg = pageState.selectedCategory || 1;
 
 const svgOptions = document.querySelector('.svgOptions');
 const selectSvgButton = document.querySelector('.svg-select-button');
@@ -62,7 +62,7 @@ let inputValues = {
   collectionName: localStorage.getItem('collectionNameTextbox') || '',
   collectionType: 'quiz',
   sharedCollection: false,
-  collectionCategory: pageState.selectedCategory || '3',
+  collectionCategory: pageState.selectedCategory || 3,
   quizQuestion: '',
   quizCorrectAnswer: '',
   quizAnswer1: '',
@@ -89,7 +89,7 @@ async function collectionsOptionInit() {
 
       option.textContent = collection.collectionName;
       option.name = collection.collectionName;
-      console.log(collection.collectionName);
+      // console.log(collection.collectionName);
       collectionsSelect.appendChild(option);
       selectedCollectionName = collection.collectionName;
     }
@@ -291,8 +291,9 @@ function updateCardSelection() {
 function updateSvg() {
   selectSvgButton.innerHTML = appState.svg[selectedSvg];
   localStorage.setItem('selectedCategory', selectedSvg);
-  inputValues.categoryId = findId(selectedSvg);
+  inputValues.categoryId = findId(selectedSvg) || 'history';
   console.log(inputValues.categoryId);
+  console.log('selectecsvg', selectedSvg);
 }
 
 selectSvgButton.addEventListener('click', () => {
