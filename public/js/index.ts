@@ -1,10 +1,10 @@
-const getUsername = JSON.parse(localStorage.getItem('username'));
+const getUsername: string | null = localStorage.getItem('username');
 
-const username = getUsername.charAt(0).toUpperCase() + getUsername.slice(1);
+const username = getUsername!.charAt(0).toUpperCase() + getUsername!.slice(1);
 
-document.querySelector('#username').textContent = ` ${username}!`;
+document.querySelector('#username')!.textContent = ` ${username}!`;
 
-const solveQuizButton = document.querySelector('.solve-quiz');
+const solveQuizButton = document.querySelector('.solve-quiz') as HTMLElement;
 
 function clearLocaleStorage() {
   localStorage.removeItem('correctAnswersCount');

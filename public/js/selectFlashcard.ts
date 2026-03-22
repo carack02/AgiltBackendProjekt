@@ -1,25 +1,24 @@
 import { getCollections } from './helperFunctions.js';
 
-const flashcardContainer = document.querySelector('.container');
+const flashcardContainer = document.querySelector(
+  '.container',
+) as HTMLDivElement;
 let collections;
 
-async function collectionsOptionInit() {
+async function collectionsOptionInit(): Promise<void> {
   flashcardContainer.innerHTML = '';
   collections = await getCollections('flash');
   console.log('collections', collections);
   if (collections) {
     for (const collection of collections) {
       console.log('collection', collection);
-      const collectionButton = document.createElement('button');
+      const collectionButton = document.createElement('a');
       collectionButton.type = 'button';
       collectionButton.innerHTML = collection.collectionName;
-      collectionButton.href = '/solveFlashcard.html';
       collectionButton.classList.add('white-button');
-      const a = document.createElement('a');
-      a.style.width = '100%';
-      a.href = `/public/solveFlashcard.html?id=${collection.collectionId}`;
-      a.appendChild(collectionButton);
-      flashcardContainer.appendChild(a);
+      collectionButton.style.width = '100%';
+      collectionButton.href = `./solveFlashcard.html?id=${collection.collectionId}`;
+      flashcardContainer.appendChild(collectionButton);
     }
   }
   console.log('collections', collections);
