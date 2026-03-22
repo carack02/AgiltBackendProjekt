@@ -63,14 +63,16 @@ async function updateUser(event) {
   const userPassword = userPassword1;
   const userId = JSON.parse(localStorage.getItem('userId'));
 
-  validateUserInput(
+  const isValid = validateUserInput({
     username,
     userEmail,
     currentPassword,
     userPassword,
     userPassword2,
     errorMessage,
-  );
+  });
+
+  if (!isValid) return true;
 
   const user = {};
   console.log('user', user);
