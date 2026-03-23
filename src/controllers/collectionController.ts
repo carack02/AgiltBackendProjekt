@@ -210,7 +210,7 @@ export async function getCollectionByTypeUserId(
     returnData = results;
   } catch (err) {
     console.error('There was an error getting the collection', err);
-    return res.sendStatus(500);
+    return res.status(500).json({ message: err });
   }
-  res.status(201).json({ message: 'getCollectionById was run', returnData });
+  res.status(200).json({ message: 'getCollectionById was run', returnData });
 }
