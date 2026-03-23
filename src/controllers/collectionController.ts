@@ -15,7 +15,29 @@ interface Collection extends RowDataPacket {
   categoryId: number;
 }
 
-export async function createCollection(req: Request, res: Response) {
+type Idparams = { id: string };
+
+type TypeParams = {
+  type: string;
+};
+
+type CollectionBody = {
+  collectionName: string;
+  collectionType: string;
+  sharedCollection: boolean;
+  createdBy: string;
+  categoryId: number;
+};
+
+type collectionTypeUserBody = {
+  id: string;
+  type: string;
+};
+
+export async function createCollection(
+  req: Request<CollectionBody>,
+  res: Response,
+) {
   const {
     collectionName,
     collectionType,
@@ -64,9 +86,9 @@ export async function getCollections(_req: Request, res: Response) {
   }
 }
 
-export async function deleteCollection(req: Request, res: Response) {
+export async function deleteCollection(req: Request<Idparams>, res: Response) {
   const { id } = req.params;
-  let rows;
+  let rows: number;
   try {
     const [results] = await db.query<ResultSetHeader>(
       'DELETE FROM collections WHERE collectionId = ?',
@@ -80,6 +102,7 @@ export async function deleteCollection(req: Request, res: Response) {
     rows = results.affectedRows;
   } catch (err) {
     console.error('error deleteing collection', err);
+    return res.sendStatus(500);
   }
 
   return res.status(200).json({
@@ -87,9 +110,9 @@ export async function deleteCollection(req: Request, res: Response) {
   });
 }
 
-export async function getCollectionById(req: Request, res: Response) {
+export async function getCollectionById(req: Request<Idparams>, res: Response) {
   const { id } = req.params;
-  let returnData;
+  let returnData: Collection[];
   try {
     const [results] = await db.query<Collection[]>(
       'SELECT * FROM collections WHERE collectionId = ?',
@@ -98,11 +121,15 @@ export async function getCollectionById(req: Request, res: Response) {
     returnData = results;
   } catch (err) {
     console.error('There was an error getting the collection', err);
+    return res.sendStatus(500);
   }
-  res.status(201).json({ message: 'getCollectionById was run', returnData });
+  res.status(200).json({ message: 'getCollectionById was run', returnData });
 }
 
-export async function updateCollection(req: Request, res: Response) {
+export async function updateCollection(
+  req: Request<Idparams, CollectionBody>,
+  res: Response,
+) {
   const { id } = req.params;
   const {
     collectionName,
@@ -147,9 +174,12 @@ export async function updateCollection(req: Request, res: Response) {
   return res.json({ message: 'updateCollection was run' });
 }
 
-export async function getCollectionByType(req: Request, res: Response) {
+export async function getCollectionByType(
+  req: Request<TypeParams>,
+  res: Response,
+) {
   const { type } = req.params;
-  let returnData;
+  let returnData: Collection[];
   try {
     const [results] = await db.query<Collection[]>(
       'SELECT * FROM collections WHERE collectionType = ?',
@@ -158,8 +188,29 @@ export async function getCollectionByType(req: Request, res: Response) {
     returnData = results;
   } catch (err) {
     console.error('There was an error getting the collection', err);
+    return res.sendStatus(500);
   }
   res
     .status(201)
     .json({ message: 'getCollectionByType was run', returnData: returnData });
+}
+
+export async function getCollectionByTypeUserId(
+  req: Request<collectionTypeUserBody>,
+  res: Response,
+) {
+  const { id, type } = req.body;
+
+  let returnData: Collection[];
+  try {
+    const [results] = await db.query<Collection[]>(
+      'SELECT * FROM collections WHERE createdBy = ? AND collectionType = ?',
+      [id, type],
+    );
+    returnData = results;
+  } catch (err) {
+    console.error('There was an error getting the collection', err);
+    return res.status(500).json({ message: err });
+  }
+  res.status(200).json({ message: 'getCollectionById was run', returnData });
 }

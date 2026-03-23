@@ -1,7 +1,7 @@
 import {
   appState,
   findId,
-  getCollections,
+  getTypeUserCollections,
   getQuizcards,
   addNewQuiz,
   addNewCollection,
@@ -13,6 +13,8 @@ import {
   updateQuiz,
   updateCollection,
 } from './helperFunctions.js';
+
+let userId = JSON.parse(localStorage.getItem('userId'));
 
 const pageState = {
   selectedCategory: localStorage.getItem('selectedCategory'),
@@ -27,7 +29,7 @@ const pageState = {
   answerOption3: localStorage.getItem('answerOption3'),
 };
 
-let selectedSvg = pageState.selectedCategory || 1;
+let selectedSvg = pageState.selectedCategory || 'history';
 
 const svgOptions = document.querySelector('.svgOptions');
 const selectSvgButton = document.querySelector('.svg-select-button');
@@ -51,9 +53,9 @@ const addButton = document.querySelector('.addButton');
 const deleteButton = document.querySelector('.deleteButton');
 
 let collectionCards;
-// let selectedCollectionName;
+let selectedCollectionName;
 let collections;
-let user = 1;
+
 let submitType = 'add';
 let selectedQuizId;
 
@@ -62,14 +64,14 @@ let inputValues = {
   collectionName: localStorage.getItem('collectionNameTextbox') || '',
   collectionType: 'quiz',
   sharedCollection: false,
-  collectionCategory: pageState.selectedCategory || 3,
+  collectionCategory: pageState.selectedCategory || 'history',
   quizQuestion: '',
   quizCorrectAnswer: '',
   quizAnswer1: '',
   quizAnswer2: '',
   quizAnswer3: '',
   categoryId: null,
-  createdBy: user,
+  createdBy: userId,
 };
 
 updateSvg();
@@ -77,7 +79,7 @@ collectionsOptionInit('init');
 
 async function collectionsOptionInit() {
   collectionsSelect.innerHTML = '';
-  collections = await getCollections('quiz');
+  collections = await getTypeUserCollections({ userId: userId, type: 'quiz' });
   if (collections) {
     const option = document.createElement('option');
     option.value = 'Välj samling';
@@ -120,7 +122,7 @@ createCollectionButton.addEventListener('click', async () => {
     collectionType: inputValues.collectionType,
     collectionCategory: inputValues.categoryId,
     sharedCollection: false,
-    createdBy: user,
+    createdBy: userId,
   });
   if (response.error) {
     setCollectionInfo(response.error, 1);

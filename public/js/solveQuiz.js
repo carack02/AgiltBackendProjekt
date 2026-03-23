@@ -11,6 +11,18 @@ next.disabled = true;
 const info = document.querySelector('.info');
 // console.log(quizId);
 let index = 0;
+let activeQuiz = {};
+init();
+
+async function init() {
+  activeQuiz = await getQuizcards({ collectionId: quizId });
+
+  if (!activeQuiz[0]) {
+    quizContainer.innerHTML = 'Denna samling har inga quiz';
+  } else {
+    listQuestions();
+  }
+}
 
 next.addEventListener('click', () => {
   if (index != activeQuiz.length - 1) {
@@ -23,13 +35,9 @@ next.addEventListener('click', () => {
   }
 });
 
-const activeQuiz = await getQuizcards({ collectionId: quizId });
-
-listQuestions();
-// console.log(activeQuiz);
 function listQuestions() {
   info.innerHTML = `Fråga ${index + 1} av ${activeQuiz.length}`;
-  // for (const quiz of activeQuiz) {
+
   console.log('quiz', activeQuiz[index]);
   console.log('index', index);
   quizContainer.innerHTML = '';
@@ -63,24 +71,31 @@ function listQuestions() {
     activeQuiz[index].collectionId,
     activeQuiz[index].quizId,
   );
-  // addClass(
-  //   [answerOption1, answerOption2, answerOption3, answerOption4],
-  //   'option',
-  // );
+
+  const mixedAnswers = [
+    answerOption1,
+    answerOption2,
+    answerOption3,
+    answerOption4,
+  ];
+
+  for (let i = mixedAnswers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [mixedAnswers[i], mixedAnswers[j]] = [mixedAnswers[j], mixedAnswers[i]];
+  }
 
   addClass(question, 'question');
   question.innerHTML = activeQuiz[index].quizQuestion;
   questionContainer.appendChild(question);
-  questionContainer.appendChild(answerOption1);
-  questionContainer.appendChild(answerOption2);
-  questionContainer.appendChild(answerOption3);
-  questionContainer.appendChild(answerOption4);
+  mixedAnswers.forEach((answer) => {
+    questionContainer.appendChild(answer);
+  });
+
   quizContainer.appendChild(questionContainer);
   if (index === activeQuiz.length - 1) {
     next.value = 'Klart';
   }
 }
-// }
 
 function addClass(element, newClass) {
   let i;
@@ -94,11 +109,10 @@ function addClass(element, newClass) {
 }
 
 function createCheckbox(answer, index, collection, quiz) {
-  // let i = quantity;
   localStorage.setItem(`collection${collection}question${quiz}`, '');
   const container = document.createElement('div');
   container.classList.add('option');
-  // for (i; i > 0; i--) {
+
   let option = `option${index}`;
   const label = document.createElement('label');
   const element = document.createElement('input');
@@ -107,12 +121,12 @@ function createCheckbox(answer, index, collection, quiz) {
   element.value = answer;
   element.name = quiz;
   element.id = option;
+  element.classList.add('option');
   label.htmlFor = option;
-  // label.innerHTML = answer;
+
   label.appendChild(element);
   label.appendChild(textNode);
   container.appendChild(label);
-  // container.appendChild(element);
 
   container.addEventListener('change', (e) => {
     if (e.target.checked)
