@@ -8,6 +8,12 @@
   --info: rgb(0, 54, 0);
   --radius: 8px;
 }
+.quizResult {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+}
 
 #resultCelebration {
   display: flex;
@@ -78,4 +84,13 @@
   padding: 4px;
   border-radius: var(--radius);
   margin: 6px 0px;
+}
+
+@media screen and (min-width: 600px) {
+  .quizResult {
+    width: 400px;
+  }
+  .button {
+    width: 400px;
+  }
 }
